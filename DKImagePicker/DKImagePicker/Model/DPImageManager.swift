@@ -479,7 +479,7 @@ class DPImageManager: NSObject {
         
         var imageSize = CGSize.zero
         if photoWidth < self.configModel.screenWidth && photoWidth < self.configModel.photoPreviewMaxWidth {
-            imageSize = self.configModel.assetGridThumbnailSize
+            imageSize = self.configModel.thumbnailSize
         }else {
             let aspectRatio = CGFloat(asset.pixelWidth)/CGFloat(asset.pixelHeight)
             var pixelWidth = photoWidth * self.configModel.screenScale * 1.5
@@ -846,12 +846,12 @@ class DPImageManager: NSObject {
             return nil
         }
             
-        if (self.configModel.hideWhenCanNotSelect) {
-            // 过滤掉尺寸不满足要求的图片
-            if !self.canPhotoSelectable(asset: asset) {
-                return nil
-            }
-        }
+//        if (self.configModel.hideWhenCanNotSelect) {
+//            // 过滤掉尺寸不满足要求的图片
+//            if !self.canPhotoSelectable(asset: asset) {
+//                return nil
+//            }
+//        }
         var timeLength = ""
         if type == .video {
             timeLength = self.getNewTime(from: Int(asset.duration))

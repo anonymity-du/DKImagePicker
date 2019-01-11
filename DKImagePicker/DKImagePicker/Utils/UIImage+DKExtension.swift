@@ -1,5 +1,5 @@
 //
-//  UIImage+Extension.swift
+//  UIImage+DKExtension.swift
 //  DKImagePicker
 //
 //  Created by 杜奎 on 2019/1/10.
@@ -96,5 +96,58 @@ extension UIImage {
         let newimage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return newimage
+    }
+    
+    //gif图片
+    static func animatedGif(with data: Data?) -> UIImage? {
+        if data == nil {
+            return nil
+        }
+        
+        var animatedImage: UIImage?
+        if let source = CGImageSourceCreateWithData(data! as CFData, nil) {
+            let count = CGImageSourceGetCount(source)
+            if count <= 1 {
+                animatedImage = UIImage.init(data: data! as Data)
+            }else {
+                var images = [UIImage]()
+                var duration: TimeInterval = 0
+                for index in 0..<count {
+                    let image = CGImageSourceCreateImageAtIndex(source, index, nil)
+                    if image == nil {
+                        continue
+                    }
+                    duration += TimeInterval(self.frameDuration(with: index, source: source))
+                    images.append(UIImage.init(cgImage: image!, scale: UIScreen.main.scale, orientation: UIImage.Orientation.up))
+                }
+                if duration <= 0 {
+                    duration = 1.0/10.0 * Double(count)
+                }
+                animatedImage = UIImage.animatedImage(with: images, duration: duration)
+            }
+        }
+        return animatedImage
+    }
+    
+    // 每帧长度
+    static func frameDuration(with index: Int, source: CGImageSource) -> CGFloat {
+        var frameDuration: CGFloat = 0.1
+        let cgFramePropertier = CGImageSourceCopyProperties(source, nil)
+        let framePropertier = cgFramePropertier as! [String: Any]
+        if let gifProperties = framePropertier[(kCGImagePropertyGIFDictionary as String)] as? [String: Any] {
+            let delayTimeUnclampedProp = gifProperties[(kCGImagePropertyGIFUnclampedDelayTime as String)]
+            if delayTimeUnclampedProp != nil {
+                frameDuration = delayTimeUnclampedProp as! CGFloat
+            }else {
+                let delayTimeProp = gifProperties[(kCGImagePropertyGIFDelayTime as String)]
+                if delayTimeProp != nil {
+                    frameDuration = delayTimeProp as! CGFloat
+                }
+            }
+            if frameDuration < 0.011 {
+                frameDuration = 0.1
+            }
+        }
+        return frameDuration
     }
 }

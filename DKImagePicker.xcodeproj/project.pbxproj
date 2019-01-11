@@ -18,8 +18,21 @@
 		23D2DB0321E73B92008D4C79 /* DPAlbumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DAFE21E73B91008D4C79 /* DPAlbumModel.swift */; };
 		23D2DB0421E73B92008D4C79 /* DPCropViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DAFF21E73B91008D4C79 /* DPCropViewManager.swift */; };
 		23D2DB0521E73B92008D4C79 /* DPImageConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB0021E73B92008D4C79 /* DPImageConfigModel.swift */; };
-		23D2DB0821E73D91008D4C79 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB0721E73D91008D4C79 /* UIView+Extension.swift */; };
-		23D2DB0A21E73E53008D4C79 /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB0921E73E53008D4C79 /* UIImage+Extension.swift */; };
+		23D2DB0821E73D91008D4C79 /* UIView+DKExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB0721E73D91008D4C79 /* UIView+DKExtension.swift */; };
+		23D2DB0A21E73E53008D4C79 /* UIImage+DKExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB0921E73E53008D4C79 /* UIImage+DKExtension.swift */; };
+		23D2DB0C21E74992008D4C79 /* DKImageTipsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB0B21E74992008D4C79 /* DKImageTipsModel.swift */; };
+		23D2DB1721E776C1008D4C79 /* DPBaseAssetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB1021E776C1008D4C79 /* DPBaseAssetCell.swift */; };
+		23D2DB1821E776C1008D4C79 /* DPMediaPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB1121E776C1008D4C79 /* DPMediaPickerView.swift */; };
+		23D2DB1921E776C1008D4C79 /* DPPhotoPreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB1221E776C1008D4C79 /* DPPhotoPreviewCell.swift */; };
+		23D2DB1A21E776C1008D4C79 /* DPAlbumPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB1321E776C1008D4C79 /* DPAlbumPickerView.swift */; };
+		23D2DB1B21E776C1008D4C79 /* DPImagePickerCameraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB1421E776C1008D4C79 /* DPImagePickerCameraCell.swift */; };
+		23D2DB1C21E776C1008D4C79 /* DPAlbumPickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB1521E776C1008D4C79 /* DPAlbumPickerTableViewCell.swift */; };
+		23D2DB1D21E776C1008D4C79 /* DPImagePickerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB1621E776C1008D4C79 /* DPImagePickerCell.swift */; };
+		23D2DB1F21E77874008D4C79 /* DKUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB1E21E77874008D4C79 /* DKUtil.swift */; };
+		23D2DB2121E837A3008D4C79 /* UIColor+DKExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB2021E837A3008D4C79 /* UIColor+DKExtension.swift */; };
+		23D2DB2421E84322008D4C79 /* DPImagePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB2221E84322008D4C79 /* DPImagePickerViewController.swift */; };
+		23D2DB2521E84322008D4C79 /* DPImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB2321E84322008D4C79 /* DPImagePreviewViewController.swift */; };
+		23D2DB2721E846C8008D4C79 /* DKProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB2621E846C8008D4C79 /* DKProgressView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,8 +49,21 @@
 		23D2DAFE21E73B91008D4C79 /* DPAlbumModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPAlbumModel.swift; sourceTree = "<group>"; };
 		23D2DAFF21E73B91008D4C79 /* DPCropViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPCropViewManager.swift; sourceTree = "<group>"; };
 		23D2DB0021E73B92008D4C79 /* DPImageConfigModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPImageConfigModel.swift; sourceTree = "<group>"; };
-		23D2DB0721E73D91008D4C79 /* UIView+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
-		23D2DB0921E73E53008D4C79 /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		23D2DB0721E73D91008D4C79 /* UIView+DKExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+DKExtension.swift"; sourceTree = "<group>"; };
+		23D2DB0921E73E53008D4C79 /* UIImage+DKExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+DKExtension.swift"; sourceTree = "<group>"; };
+		23D2DB0B21E74992008D4C79 /* DKImageTipsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKImageTipsModel.swift; sourceTree = "<group>"; };
+		23D2DB1021E776C1008D4C79 /* DPBaseAssetCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPBaseAssetCell.swift; sourceTree = "<group>"; };
+		23D2DB1121E776C1008D4C79 /* DPMediaPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPMediaPickerView.swift; sourceTree = "<group>"; };
+		23D2DB1221E776C1008D4C79 /* DPPhotoPreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPPhotoPreviewCell.swift; sourceTree = "<group>"; };
+		23D2DB1321E776C1008D4C79 /* DPAlbumPickerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPAlbumPickerView.swift; sourceTree = "<group>"; };
+		23D2DB1421E776C1008D4C79 /* DPImagePickerCameraCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPImagePickerCameraCell.swift; sourceTree = "<group>"; };
+		23D2DB1521E776C1008D4C79 /* DPAlbumPickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPAlbumPickerTableViewCell.swift; sourceTree = "<group>"; };
+		23D2DB1621E776C1008D4C79 /* DPImagePickerCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPImagePickerCell.swift; sourceTree = "<group>"; };
+		23D2DB1E21E77874008D4C79 /* DKUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKUtil.swift; sourceTree = "<group>"; };
+		23D2DB2021E837A3008D4C79 /* UIColor+DKExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+DKExtension.swift"; sourceTree = "<group>"; };
+		23D2DB2221E84322008D4C79 /* DPImagePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPImagePickerViewController.swift; sourceTree = "<group>"; };
+		23D2DB2321E84322008D4C79 /* DPImagePreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DPImagePreviewViewController.swift; sourceTree = "<group>"; };
+		23D2DB2621E846C8008D4C79 /* DKProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKProgressView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,12 +111,10 @@
 		23D2DAF421E72B2F008D4C79 /* DKImagePicker */ = {
 			isa = PBXGroup;
 			children = (
+				23D2DB0F21E77631008D4C79 /* ViewController */,
+				23D2DB0E21E77628008D4C79 /* View */,
+				23D2DB0D21E77614008D4C79 /* Model */,
 				23D2DB0621E73D49008D4C79 /* Utils */,
-				23D2DAFE21E73B91008D4C79 /* DPAlbumModel.swift */,
-				23D2DAFD21E73B91008D4C79 /* DPAssetModel.swift */,
-				23D2DB0021E73B92008D4C79 /* DPImageConfigModel.swift */,
-				23D2DAFF21E73B91008D4C79 /* DPCropViewManager.swift */,
-				23D2DAFC21E73B91008D4C79 /* DPImageManager.swift */,
 			);
 			path = DKImagePicker;
 			sourceTree = "<group>";
@@ -98,10 +122,49 @@
 		23D2DB0621E73D49008D4C79 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				23D2DB0721E73D91008D4C79 /* UIView+Extension.swift */,
-				23D2DB0921E73E53008D4C79 /* UIImage+Extension.swift */,
+				23D2DB2021E837A3008D4C79 /* UIColor+DKExtension.swift */,
+				23D2DB0721E73D91008D4C79 /* UIView+DKExtension.swift */,
+				23D2DB0921E73E53008D4C79 /* UIImage+DKExtension.swift */,
+				23D2DB1E21E77874008D4C79 /* DKUtil.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		23D2DB0D21E77614008D4C79 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				23D2DAFE21E73B91008D4C79 /* DPAlbumModel.swift */,
+				23D2DAFD21E73B91008D4C79 /* DPAssetModel.swift */,
+				23D2DB0021E73B92008D4C79 /* DPImageConfigModel.swift */,
+				23D2DB0B21E74992008D4C79 /* DKImageTipsModel.swift */,
+				23D2DAFF21E73B91008D4C79 /* DPCropViewManager.swift */,
+				23D2DAFC21E73B91008D4C79 /* DPImageManager.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		23D2DB0E21E77628008D4C79 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				23D2DB1321E776C1008D4C79 /* DPAlbumPickerView.swift */,
+				23D2DB1121E776C1008D4C79 /* DPMediaPickerView.swift */,
+				23D2DB1021E776C1008D4C79 /* DPBaseAssetCell.swift */,
+				23D2DB1621E776C1008D4C79 /* DPImagePickerCell.swift */,
+				23D2DB1421E776C1008D4C79 /* DPImagePickerCameraCell.swift */,
+				23D2DB1521E776C1008D4C79 /* DPAlbumPickerTableViewCell.swift */,
+				23D2DB1221E776C1008D4C79 /* DPPhotoPreviewCell.swift */,
+				23D2DB2621E846C8008D4C79 /* DKProgressView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		23D2DB0F21E77631008D4C79 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				23D2DB2221E84322008D4C79 /* DPImagePickerViewController.swift */,
+				23D2DB2321E84322008D4C79 /* DPImagePreviewViewController.swift */,
+			);
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -175,17 +238,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23D2DB2121E837A3008D4C79 /* UIColor+DKExtension.swift in Sources */,
+				23D2DB1A21E776C1008D4C79 /* DPAlbumPickerView.swift in Sources */,
+				23D2DB0C21E74992008D4C79 /* DKImageTipsModel.swift in Sources */,
+				23D2DB1821E776C1008D4C79 /* DPMediaPickerView.swift in Sources */,
 				23D2DB0421E73B92008D4C79 /* DPCropViewManager.swift in Sources */,
+				23D2DB1F21E77874008D4C79 /* DKUtil.swift in Sources */,
+				23D2DB2521E84322008D4C79 /* DPImagePreviewViewController.swift in Sources */,
 				23D2DB0221E73B92008D4C79 /* DPAssetModel.swift in Sources */,
 				23D2DAF921E72C12008D4C79 /* TestBViewController.swift in Sources */,
+				23D2DB2421E84322008D4C79 /* DPImagePickerViewController.swift in Sources */,
 				23D2DB0121E73B92008D4C79 /* DPImageManager.swift in Sources */,
 				23D2DB0521E73B92008D4C79 /* DPImageConfigModel.swift in Sources */,
+				23D2DB1721E776C1008D4C79 /* DPBaseAssetCell.swift in Sources */,
 				23D2DAE321E72669008D4C79 /* AppDelegate.swift in Sources */,
 				23D2DB0321E73B92008D4C79 /* DPAlbumModel.swift in Sources */,
 				23D2DAF721E72BFA008D4C79 /* TestAViewController.swift in Sources */,
-				23D2DB0821E73D91008D4C79 /* UIView+Extension.swift in Sources */,
-				23D2DB0A21E73E53008D4C79 /* UIImage+Extension.swift in Sources */,
+				23D2DB0821E73D91008D4C79 /* UIView+DKExtension.swift in Sources */,
+				23D2DB0A21E73E53008D4C79 /* UIImage+DKExtension.swift in Sources */,
+				23D2DB1C21E776C1008D4C79 /* DPAlbumPickerTableViewCell.swift in Sources */,
+				23D2DB1B21E776C1008D4C79 /* DPImagePickerCameraCell.swift in Sources */,
+				23D2DB1921E776C1008D4C79 /* DPPhotoPreviewCell.swift in Sources */,
 				23D2DAFB21E72C3B008D4C79 /* TestCViewController.swift in Sources */,
+				23D2DB2721E846C8008D4C79 /* DKProgressView.swift in Sources */,
+				23D2DB1D21E776C1008D4C79 /* DPImagePickerCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

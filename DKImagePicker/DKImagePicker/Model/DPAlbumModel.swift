@@ -18,11 +18,15 @@ enum DPAlbumModelType: Int {
 }
 
 class DPAlbumModel: NSObject {
-    
-    var name: String = "" ///< The album name
-    var count: Int = 0  ///< Count of photos the album contain
+    // 相册名字 The album name
+    var name: String = ""
+    // 相册中图片数量 Count of photos the album contain
+    var count: Int = 0
     
     var models = [DPAssetModel]()
+    //选中的数量
+    var selectedCount: Int = 0
+    //选中的model
     var selectedModels = [DPAssetModel]() {
         didSet {
             if (self.models.count > 0) {
@@ -30,11 +34,11 @@ class DPAlbumModel: NSObject {
             }
         }
     }
-    var selectedCount: Int = 0
-    
+    //是否是照片流相册
     var isCameraRoll = false
+    //是否是视频相册
     var isAlbumVideo = false
-    
+    //相册类型
     var albumType: DPAlbumModelType = .all
     
     var result: PHFetchResult<PHAsset>? { ///< PHFetchResult<PHAsset>
@@ -53,6 +57,7 @@ class DPAlbumModel: NSObject {
         }
     }
     
+    //计算当前相册中的被选中的数量
     private func checkSelectedModels() {
         self.selectedCount = 0
         var selectedAssets = [PHAsset]()

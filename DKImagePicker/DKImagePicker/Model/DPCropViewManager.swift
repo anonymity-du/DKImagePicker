@@ -71,14 +71,6 @@ class DPCropViewManager: NSObject {
             return nil
         }
     }
-
-
-//    CGImageRef resultRef = CGBitmapContextCreateImage(context);
-//    CGContextRelease(context);
-//    CGImageRelease(source);
-//    return resultRef;
-//    }
-//
     
     class func newScaledImage(source: CGImage, toSize: CGSize) -> CGImage? {
         let rgbColorSpace = CGColorSpaceCreateDeviceRGB()
