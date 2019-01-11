@@ -148,7 +148,7 @@ class DPImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
                     } else {
                         strTip = "最多只能选择\(IMGInstance.configModel.maxImagesCount)张"
                     }
-//                    DPUtil.frontWindow().makeToast(strTip)
+                    kFrontWindow().makeToast(strTip)
                     return
                 }else {
                     IMGInstance.addAssetModel(with: model)

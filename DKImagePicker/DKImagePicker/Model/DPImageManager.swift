@@ -176,7 +176,7 @@ class DPImageManager: NSObject {
     
     //完成选择
     func didFinishPicking() {
-//        MBProgressHUD.showHudForView(view: DPUtil.frontWindow()).isUserInteractionEnabled = true
+//        MBProgressHUD.showHudForView(view: kFrontWindow()).isUserInteractionEnabled = true
         var photos = [Any]()
         var assetModels = [Any]()
         var infos = [Any]()
@@ -193,7 +193,7 @@ class DPImageManager: NSObject {
                 // 如果图片正在从iCloud同步中,提醒用户
                 if progress < 1 && havenotShowAlert {
                     havenotShowAlert = false
-//                    DPUtil.frontWindow().makeToast("正在从iCloud同步第\(index)张")
+                    kFrontWindow().makeToast("正在从iCloud同步第\(index)张")
                     return
                 }
                 if progress >= 1 {
@@ -215,7 +215,7 @@ class DPImageManager: NSObject {
                         return
                     }
                 }
-//                MBProgressHUD.hideHUDForView(view: DPUtil.frontWindow())
+//                MBProgressHUD.hideHUDForView(view: kFrontWindow())
                 if let delegate = self.pickerDelegate, delegate.responds(to: #selector(DPImagePickerDelegate.imagePickerDidFinishPicking(photos:infos:sourceAssets:))) {
                     delegate.imagePickerDidFinishPicking!(photos: photos as! [UIImage], infos: infos, sourceAssets: assetModels as! [DPAssetModel])
                 }

@@ -15,6 +15,20 @@ class TestAViewController: UIViewController {
 
         self.navigationItem.title = "A"
         self.view.backgroundColor = UIColor.red
+        
+        
+        let btn = UIButton(type: UIButton.ButtonType.custom)
+        btn.setTitle("click!", for: .normal)
+        btn.setTitleColor(UIColor.purple, for: .normal)
+        btn.addTarget(self, action: #selector(btnClicked), for: .touchUpInside)
+        btn.sizeToFit()
+        self.view.addSubview(btn)
+        btn.center = CGPoint.init(x: self.view.width * 0.5, y: self.view.height * 0.5)
         // Do any additional setup after loading the view.
     }
+    
+    @objc func btnClicked() {
+        kFrontWindow().makeToast("ahahhahahaha")
+    }
+    
 }

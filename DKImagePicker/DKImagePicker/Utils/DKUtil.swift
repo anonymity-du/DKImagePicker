@@ -34,8 +34,13 @@ extension Notification.Name {
 }
 
 //MARK: - 适配iOS11
+
 func adjustsScrollViewInsets(scrollView: UIScrollView) {
     if #available(iOS 11.0, *) {
         scrollView.contentInsetAdjustmentBehavior = .never
     }
+}
+
+func kFrontWindow() -> UIWindow {
+    return (UIApplication.shared.delegate as! AppDelegate).window!
 }
