@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2320AC2221F721A900FA657C /* DKLoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2320AC2121F721A900FA657C /* DKLoadingView.swift */; };
 		23D2DAE321E72669008D4C79 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DAE221E72669008D4C79 /* AppDelegate.swift */; };
 		23D2DAEA21E72671008D4C79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23D2DAE921E72671008D4C79 /* Assets.xcassets */; };
 		23D2DAED21E72671008D4C79 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23D2DAEB21E72671008D4C79 /* LaunchScreen.storyboard */; };
@@ -38,6 +39,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2320AC2121F721A900FA657C /* DKLoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKLoadingView.swift; sourceTree = "<group>"; };
 		23D2DADF21E72669008D4C79 /* DKImagePicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DKImagePicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23D2DAE221E72669008D4C79 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		23D2DAE921E72671008D4C79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -160,6 +162,7 @@
 				23D2DB1221E776C1008D4C79 /* DPPhotoPreviewCell.swift */,
 				23D2DB2621E846C8008D4C79 /* DKProgressView.swift */,
 				23D2DB2821E84FAF008D4C79 /* DKToastView.swift */,
+				2320AC2121F721A900FA657C /* DKLoadingView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 				23D2DB1721E776C1008D4C79 /* DPBaseAssetCell.swift in Sources */,
 				23D2DAE321E72669008D4C79 /* AppDelegate.swift in Sources */,
 				23D2DB0321E73B92008D4C79 /* DPAlbumModel.swift in Sources */,
+				2320AC2221F721A900FA657C /* DKLoadingView.swift in Sources */,
 				23D2DAF721E72BFA008D4C79 /* TestAViewController.swift in Sources */,
 				23D2DB0821E73D91008D4C79 /* UIView+DKExtension.swift in Sources */,
 				23D2DB0A21E73E53008D4C79 /* UIImage+DKExtension.swift in Sources */,

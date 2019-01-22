@@ -176,7 +176,7 @@ class DPImageManager: NSObject {
     
     //完成选择
     func didFinishPicking() {
-//        MBProgressHUD.showHudForView(view: kFrontWindow()).isUserInteractionEnabled = true
+        DKLoadingView.show()
         var photos = [Any]()
         var assetModels = [Any]()
         var infos = [Any]()
@@ -215,7 +215,7 @@ class DPImageManager: NSObject {
                         return
                     }
                 }
-//                MBProgressHUD.hideHUDForView(view: kFrontWindow())
+                DKLoadingView.hide()
                 if let delegate = self.pickerDelegate, delegate.responds(to: #selector(DPImagePickerDelegate.imagePickerDidFinishPicking(photos:infos:sourceAssets:))) {
                     delegate.imagePickerDidFinishPicking!(photos: photos as! [UIImage], infos: infos, sourceAssets: assetModels as! [DPAssetModel])
                 }

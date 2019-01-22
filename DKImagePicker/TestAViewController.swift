@@ -28,7 +28,7 @@ class TestAViewController: UIViewController {
     }
     
     @objc func btnClicked() {
-        kFrontWindow().makeToast("ahahhahahaha")
+//        DKLoadingView.show()
     }
     
 }
