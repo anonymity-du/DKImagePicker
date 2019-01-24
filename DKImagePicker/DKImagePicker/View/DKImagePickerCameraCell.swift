@@ -1,5 +1,5 @@
 //
-//  DPImagePickerCameraCell.swift
+//  DKImagePickerCameraCell.swift
 //  DatePlay
 //
 //  Created by 张昭 on 2018/10/23.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DPImagePickerCameraCell: UICollectionViewCell {
+class DKImagePickerCameraCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

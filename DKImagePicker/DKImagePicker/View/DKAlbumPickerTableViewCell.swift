@@ -1,5 +1,5 @@
 //
-//  DPAlbumPickerTableViewCell.swift
+//  DKAlbumPickerTableViewCell.swift
 //  DatePlay
 //
 //  Created by 张昭 on 2018/10/23.
@@ -8,16 +8,16 @@
 
 import UIKit
 
-class DPAlbumPickerTableViewCell: UITableViewCell {
+class DKAlbumPickerTableViewCell: UITableViewCell {
     
     fileprivate let imgView = UIImageView()
     fileprivate let albumTitleLabel = UILabel()
     fileprivate let iconImageView = UIImageView()
     fileprivate let iconRightDot = UIImageView()
     
-    var model: DPAlbumModel? {
+    var model: DKAlbumModel? {
         didSet {
-            if let mm: DPAlbumModel = model {
+            if let mm: DKAlbumModel = model {
                 albumTitleLabel.text = "\(mm.name)（\(mm.count)）"
                 IMGInstance.getPosterImage(albumModel: mm) { (image) in
                     self.imgView.image = image

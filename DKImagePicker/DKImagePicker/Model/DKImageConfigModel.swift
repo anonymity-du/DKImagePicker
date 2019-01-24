@@ -1,5 +1,5 @@
 //
-//  DPImageConfigModel.swift
+//  DKImageConfigModel.swift
 //  DatePlay
 //
 //  Created by 杜奎 on 2018/12/5.
@@ -10,22 +10,22 @@ import UIKit
 import AVKit
 import Photos
 
-class DPImageConfigModel: NSObject {
+class DKImageConfigModel: NSObject {
     //当前选中的相册model
-    weak var selectedAlbumModel: DPAlbumModel?
+    weak var selectedAlbumModel: DKAlbumModel?
     // 用户选中过的图片数组,目前只用拍照后的asset来填装，然后使用selectedModels
     var selectedAssets = [PHAsset]() {
         didSet {
-            self.selectedModels = [DPAssetModel]()
+            self.selectedModels = [DKAssetModel]()
             for asset in selectedAssets {
-                let model = DPAssetModel.createModel(with: asset, type: IMGInstance.getAssetType(asset: asset), timeLength: IMGInstance.getNewTime(from: Int(asset.duration)))
+                let model = DKAssetModel.createModel(with: asset, type: IMGInstance.getAssetType(asset: asset), timeLength: IMGInstance.getNewTime(from: Int(asset.duration)))
                 model.isSelected = true
                 self.selectedModels.append(model)
             }
         }
     }
     // 用户选中过的models
-    var selectedModels = [DPAssetModel]()
+    var selectedModels = [DKAssetModel]()
     
     var thumbnailSize: CGSize = CGSize.zero
     var screenWidth: CGFloat = 0
@@ -134,7 +134,7 @@ class DPImageConfigModel: NSObject {
     //图片预览或裁剪的完成按钮回调
     var previewVCCompleteBlock: (()->())?
     //系统相机拍摄完成回调
-    var systemImagePickerVCCompleteBlock: ((_ model: DPAssetModel)->())?
+    var systemImagePickerVCCompleteBlock: ((_ model: DKAssetModel)->())?
     override init() {
         super.init()
         

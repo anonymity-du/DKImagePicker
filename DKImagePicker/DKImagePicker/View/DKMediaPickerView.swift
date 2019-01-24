@@ -1,5 +1,5 @@
 //
-//  DPMediaPickerView.swift
+//  DKMediaPickerView.swift
 //  DatePlay
 //
 //  Created by 张昭 on 2018/10/22.
@@ -8,28 +8,28 @@
 
 import UIKit
 
-@objc protocol DPMediaPickerViewDelegate: NSObjectProtocol {
+@objc protocol DKMediaPickerViewDelegate: NSObjectProtocol {
     //将要选择拍照或者拍摄
     @objc func mediaPickerViewCellWillUseCamera(_ isVideo: Bool) -> Bool
     //将要选择
-    @objc func mediaPickerViewWillSelectModel(_ model: DPAssetModel) -> Bool
+    @objc func mediaPickerViewWillSelectModel(_ model: DKAssetModel) -> Bool
     //已经选择
-    @objc func mediaPickerViewDidSelectModel(_ model: DPAssetModel)
+    @objc func mediaPickerViewDidSelectModel(_ model: DKAssetModel)
     //将要选择Cell
-    @objc func mediaPickerViewCellWillSelect(_ model: DPAssetModel) -> Bool
+    @objc func mediaPickerViewCellWillSelect(_ model: DKAssetModel) -> Bool
     //已经选择Cell
-    @objc func mediaPickerViewCellDidSelect(_ model: DPAssetModel)
+    @objc func mediaPickerViewCellDidSelect(_ model: DKAssetModel)
 }
 
-class DPMediaPickerView: UIView {
+class DKMediaPickerView: UIView {
 
     fileprivate var collectionView: UICollectionView?
-    fileprivate var dataSource = [DPAssetModel]()
+    fileprivate var dataSource = [DKAssetModel]()
     var cameraIndex:Int = -1 //拍照按钮的位置
     var modelIndex:Int = 0 //相册默认的开始位置
-    weak var delegate: DPMediaPickerViewDelegate?
+    weak var delegate: DKMediaPickerViewDelegate?
 
-    var albumModel: DPAlbumModel? {
+    var albumModel: DKAlbumModel? {
         didSet {
             if let model = albumModel {
                 self.dataSource.removeAll()
@@ -62,8 +62,8 @@ class DPMediaPickerView: UIView {
         addSubview(collectionView!)
         collectionView?.delegate = self
         collectionView?.dataSource = self
-        collectionView?.register(DPImagePickerCell.self, forCellWithReuseIdentifier: "DPImagePickerCell")
-        collectionView?.register(DPImagePickerCameraCell.self, forCellWithReuseIdentifier: "DPImagePickerCameraCell")
+        collectionView?.register(DKImagePickerCell.self, forCellWithReuseIdentifier: "DKImagePickerCell")
+        collectionView?.register(DKImagePickerCameraCell.self, forCellWithReuseIdentifier: "DKImagePickerCameraCell")
 //        collectionView?.snp.makeConstraints({ (make) in
 //            make.edges.equalTo(UIEdgeInsets.zero)
 //        })
@@ -78,8 +78,8 @@ class DPMediaPickerView: UIView {
     func updateCollectionView() {
         if let cells = self.collectionView?.visibleCells {
             for cell in cells {
-                if cell is DPImagePickerCell {
-                    let imageCell = cell as! DPImagePickerCell
+                if cell is DKImagePickerCell {
+                    let imageCell = cell as! DKImagePickerCell
                     imageCell.resetIndexLabel()
                 }
             }
@@ -88,13 +88,13 @@ class DPMediaPickerView: UIView {
 }
 
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate
-extension DPMediaPickerView: UICollectionViewDataSource, UICollectionViewDelegate {
+extension DKMediaPickerView: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row == self.cameraIndex {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DPImagePickerCameraCell", for: indexPath) as! DPImagePickerCameraCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DKImagePickerCameraCell", for: indexPath) as! DKImagePickerCameraCell
             return cell
         } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DPImagePickerCell", for: indexPath) as! DPImagePickerCell
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "DKImagePickerCell", for: indexPath) as! DKImagePickerCell
             let model = self.dataSource[indexPath.row - self.modelIndex]
             cell.index = model.mediaType == .video ? 0 : IMGInstance.calculateCellSelectedIndex(model)
             cell.model = model
@@ -155,7 +155,7 @@ extension DPMediaPickerView: UICollectionViewDataSource, UICollectionViewDelegat
         }
         
         if IMGInstance.configModel.allowPreview && model.mediaType != .video {
-//            let vc = DPImagePreviewViewController.init()
+//            let vc = DKImagePreviewViewController.init()
 //            vc.models = self.dataSource
 //            vc.curIndex = indexPath.row - self.modelIndex
 //            vc.isCropImage = IMGInstance.configModel.allowCrop
@@ -174,12 +174,12 @@ extension DPMediaPickerView: UICollectionViewDataSource, UICollectionViewDelegat
     
 }
 
-extension DPMediaPickerView: DPImagePickerCellDelegate {
-    func cellSelectBtnWillClicked(with model: DPAssetModel, isSelected: Bool,cell: DPImagePickerCell) -> Bool {
+extension DKMediaPickerView: DKImagePickerCellDelegate {
+    func cellSelectBtnWillClicked(with model: DKAssetModel, isSelected: Bool,cell: DKImagePickerCell) -> Bool {
         let should = self.delegate?.mediaPickerViewWillSelectModel(model) ?? true
         return should
     }
-    func cellSelectBtnDidClicked(with model: DPAssetModel, isSelected: Bool,cell: DPImagePickerCell) {
+    func cellSelectBtnDidClicked(with model: DKAssetModel, isSelected: Bool,cell: DKImagePickerCell) {
         self.delegate?.mediaPickerViewDidSelectModel(model)
         self.updateCollectionView()
     }

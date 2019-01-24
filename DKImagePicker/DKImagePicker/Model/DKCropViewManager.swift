@@ -1,5 +1,5 @@
 //
-//  DPCropViewManager.swift
+//  DKCropViewManager.swift
 //  DatePlay
 //
 //  Created by 杜奎 on 2018/12/7.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DPCropViewManager: NSObject {
+class DKCropViewManager: NSObject {
     
     /// 裁剪框背景的处理
     class func overlayClipping(with view: UIView, cropRect: CGRect, containerView: UIView, needCircleCrop: Bool) {

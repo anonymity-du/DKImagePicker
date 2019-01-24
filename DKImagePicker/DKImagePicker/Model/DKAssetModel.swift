@@ -1,5 +1,5 @@
 //
-//  DPAssetModel.swift
+//  DKAssetModel.swift
 //  DatePlay
 //
 //  Created by 杜奎 on 2018/12/5.
@@ -10,7 +10,7 @@ import UIKit
 import AVKit
 import Photos
 
-enum DPAssetModelMediaType: UInt {
+enum DKAssetModelMediaType: UInt {
     case photo = 0
     case livePhoto
     case photoGif
@@ -18,11 +18,11 @@ enum DPAssetModelMediaType: UInt {
     case audio
 }
 
-class DPAssetModel: NSObject {
+class DKAssetModel: NSObject {
     //当前资源asset
     var asset: PHAsset?
     //资源类型
-    var mediaType: DPAssetModelMediaType = DPAssetModelMediaType.photo
+    var mediaType: DKAssetModelMediaType = DKAssetModelMediaType.photo
     //资源缩略图
     var thumbnail: UIImage?
     //资源data
@@ -42,8 +42,8 @@ class DPAssetModel: NSObject {
 
     /// Init a photo dataModel With a asset
     /// 用一个PHAsset/ALAsset实例，初始化一个照片模型
-    class func createModel(with asset: PHAsset, type: DPAssetModelMediaType, timeLength: String) -> DPAssetModel {
-        let model = DPAssetModel()
+    class func createModel(with asset: PHAsset, type: DKAssetModelMediaType, timeLength: String) -> DKAssetModel {
+        let model = DKAssetModel()
         model.asset = asset;
         model.isSelected = false
         model.mediaType = type

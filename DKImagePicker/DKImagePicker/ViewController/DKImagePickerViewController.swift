@@ -1,5 +1,5 @@
 //
-//  DPImagePickerViewController.swift
+//  DKImagePickerViewController.swift
 //  DatePlay
 //
 //  Created by 张昭 on 2018/10/22.
@@ -8,13 +8,13 @@
 
 import UIKit
 
-protocol DPImagePickerViewControllerDelegate: NSObjectProtocol {
-    func didSelectModels(photos: [UIImage], infos: [Any], sourceAssets: [DPAssetModel])
+protocol DKImagePickerViewControllerDelegate: NSObjectProtocol {
+    func didSelectModels(photos: [UIImage], infos: [Any], sourceAssets: [DKAssetModel])
 }
 
-class DPImagePickerViewController: UIViewController {
+class DKImagePickerViewController: UIViewController {
 
-    weak var delegate: DPImagePickerViewControllerDelegate?
+    weak var delegate: DKImagePickerViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +31,7 @@ class DPImagePickerViewController: UIViewController {
         //点返回和点完成 都会走这儿
         IMGInstance.configModel.previewVCBackBlock = {[weak self] in
             self?.mediaPickerView.updateCollectionView()
-            self?.mediaPickerViewDidSelectModel(DPAssetModel())
+            self?.mediaPickerViewDidSelectModel(DKAssetModel())
         }
         
 //        self.navigationBar.titleView?.isHidden = true
@@ -127,37 +127,37 @@ class DPImagePickerViewController: UIViewController {
         return btn
     }()
     
-    fileprivate lazy var mediaPickerView: DPMediaPickerView = {
-        let media = DPMediaPickerView.init(frame: CGRect.init(x: 0, y: kStatusBarAndNavigationBarHeight, width: kScreenWidth, height: kScreenHeight - kStatusBarAndNavigationBarHeight))
+    fileprivate lazy var mediaPickerView: DKMediaPickerView = {
+        let media = DKMediaPickerView.init(frame: CGRect.init(x: 0, y: kStatusBarAndNavigationBarHeight, width: kScreenWidth, height: kScreenHeight - kStatusBarAndNavigationBarHeight))
         media.delegate = self
         return media
     }()
     
-    fileprivate lazy var albumPickerView: DPAlbumPickerView = {
-        let album = DPAlbumPickerView.init(frame: CGRect.init(x: 0, y: -kScreenHeight + kStatusBarAndNavigationBarHeight * 2, width: kScreenWidth, height: kScreenHeight - kStatusBarAndNavigationBarHeight))
+    fileprivate lazy var albumPickerView: DKAlbumPickerView = {
+        let album = DKAlbumPickerView.init(frame: CGRect.init(x: 0, y: -kScreenHeight + kStatusBarAndNavigationBarHeight * 2, width: kScreenWidth, height: kScreenHeight - kStatusBarAndNavigationBarHeight))
         album.delegate = self
         return album
     }()
 }
 
-extension DPImagePickerViewController: DPMediaPickerViewDelegate {
+extension DKImagePickerViewController: DKMediaPickerViewDelegate {
     func mediaPickerViewCellWillUseCamera(_ isVideo: Bool) -> Bool {
         return true
     }
     
-    func mediaPickerViewCellWillSelect(_ model: DPAssetModel) -> Bool {
+    func mediaPickerViewCellWillSelect(_ model: DKAssetModel) -> Bool {
         return true
     }
     
-    func mediaPickerViewCellDidSelect(_ model: DPAssetModel) {
+    func mediaPickerViewCellDidSelect(_ model: DKAssetModel) {
         
     }
     
-    func mediaPickerViewWillSelectModel(_ model: DPAssetModel) -> Bool {
+    func mediaPickerViewWillSelectModel(_ model: DKAssetModel) -> Bool {
         return true
     }
     
-    func mediaPickerViewDidSelectModel(_ model: DPAssetModel) {
+    func mediaPickerViewDidSelectModel(_ model: DKAssetModel) {
         let selectedModels = IMGInstance.configModel.selectedModels
         finishBtn.setTitle("确定 (\(selectedModels.count))", for: .normal)
         if selectedModels.count > 0 {
@@ -168,8 +168,8 @@ extension DPImagePickerViewController: DPMediaPickerViewDelegate {
     }
 }
 
-extension DPImagePickerViewController: DPAlbumPickerViewDelegate {
-    func didSelectAlbum(_ album: DPAlbumModel) {
+extension DKImagePickerViewController: DKAlbumPickerViewDelegate {
+    func didSelectAlbum(_ album: DKAlbumModel) {
         if IMGInstance.configModel.selectedAlbumModel?.name != album.name {
             self.mediaPickerView.albumModel = album
         }
@@ -178,8 +178,8 @@ extension DPImagePickerViewController: DPAlbumPickerViewDelegate {
     }
 }
 
-extension DPImagePickerViewController: DPImagePickerDelegate {
-    func imagePickerDidFinishPicking(photos: [UIImage], infos: [Any], sourceAssets: [DPAssetModel]) {
+extension DKImagePickerViewController: DKImagePickerDelegate {
+    func imagePickerDidFinishPicking(photos: [UIImage], infos: [Any], sourceAssets: [DKAssetModel]) {
         self.delegate?.didSelectModels(photos: photos, infos: infos, sourceAssets: sourceAssets)
         if self.navigationController?.presentedViewController is UIImagePickerController {
             self.navigationController?.presentingViewController?
@@ -189,7 +189,7 @@ extension DPImagePickerViewController: DPImagePickerDelegate {
         }
     }
     
-    func imagePickerDidChangePicking(models: [DPAssetModel]) {
+    func imagePickerDidChangePicking(models: [DKAssetModel]) {
         let selectedModels = IMGInstance.configModel.selectedModels
         finishBtn.setTitle("确定 (\(selectedModels.count))", for: .normal)
         if selectedModels.count > 0 {

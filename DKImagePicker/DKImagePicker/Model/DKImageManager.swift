@@ -1,5 +1,5 @@
 //
-//  DPImageManager.swift
+//  DKImageManager.swift
 //  DatePlay
 //
 //  Created by 杜奎 on 2018/12/5.
@@ -12,18 +12,18 @@ import MobileCoreServices
 import AVKit
 import Photos
 
-let IMGInstance = DPImageManager.shared
+let IMGInstance = DKImageManager.shared
 
-@objc protocol DPImagePickerDelegate: NSObjectProtocol {
+@objc protocol DKImagePickerDelegate: NSObjectProtocol {
     //// 这个照片选择器会自己dismiss，当选择器dismiss的时候，会执行下面的handle
     //// 你也可以设置autoDismiss属性为NO，选择器就不会自己dismis了
     //// 你可以通过一个asset获得原图，通过这个方法：getOriginalPhotoWithAsset:completion:
     //// photos数组里的UIImage对象，默认是828像素宽，你可以通过设置photoWidth属性的值来改变它
-    @objc optional func imagePickerDidFinishPicking(photos: [UIImage], infos: [Any], sourceAssets: [DPAssetModel])
+    @objc optional func imagePickerDidFinishPicking(photos: [UIImage], infos: [Any], sourceAssets: [DKAssetModel])
     //正在改变所选择的
-    @objc optional func imagePickerDidChangePicking(models: [DPAssetModel])
+    @objc optional func imagePickerDidChangePicking(models: [DKAssetModel])
     //通过拍照获得新的assetModel
-    @objc optional func imagePickerDidAddNewAsset(photo: UIImage, model: DPAssetModel)
+    @objc optional func imagePickerDidAddNewAsset(photo: UIImage, model: DKAssetModel)
     //取消选择
     @objc optional func imagePickerDidCancel()
     
@@ -38,11 +38,11 @@ let IMGInstance = DPImageManager.shared
 }
 
 
-class DPImageManager: NSObject {
+class DKImageManager: NSObject {
     
-    static let shared = DPImageManager()
+    static let shared = DKImageManager()
     
-    weak var pickerDelegate: DPImagePickerDelegate?
+    weak var pickerDelegate: DKImagePickerDelegate?
     weak var pickerNav: UINavigationController?
     var systemImagePicker: UIImagePickerController?
     private override init() {
@@ -65,10 +65,10 @@ class DPImageManager: NSObject {
         }
     }
 
-//    func pushPhotoPickerVC(delegate: DPImagePickerViewControllerDelegate?)  {
+//    func pushPhotoPickerVC(delegate: DKImagePickerViewControllerDelegate?)  {
 //        DPSystemPermission.photoAblumAuthority { (success) in
 //            if success  {
-//                let pickerVC = DPImagePickerViewController()
+//                let pickerVC = DKImagePickerViewController()
 //                pickerVC.delegate = delegate
 //                var nav: DPBaseNavigationViewController?
 //                if let pickerCurNav = self.pickerNav as? DPBaseNavigationViewController  {
@@ -119,14 +119,14 @@ class DPImageManager: NSObject {
 //    }
     //刷新配置
     func refreshManagerConfig() {
-        let configModel = DPImageConfigModel.init()
+        let configModel = DKImageConfigModel.init()
         self.configModel = configModel
         self.pickerDelegate = nil
         self.pickerNav = nil
     }
     
     //计算所选model的index
-    func calculateCellSelectedIndex(_ model: DPAssetModel) -> Int {
+    func calculateCellSelectedIndex(_ model: DKAssetModel) -> Int {
         var index = 0
         for i in 0..<self.configModel.selectedModels.count {
             let selModel = self.configModel.selectedModels[i]
@@ -138,15 +138,15 @@ class DPImageManager: NSObject {
         return index
     }
     //增加model
-    func addAssetModel(with model: DPAssetModel) {
+    func addAssetModel(with model: DKAssetModel) {
         self.configModel.selectedModels.append(model)
         self.configModel.selectedAssets.append(model.asset!)
-        if let delegate = self.pickerDelegate, delegate.responds(to: #selector(DPImagePickerDelegate.imagePickerDidChangePicking(models:))) {
+        if let delegate = self.pickerDelegate, delegate.responds(to: #selector(DKImagePickerDelegate.imagePickerDidChangePicking(models:))) {
             self.pickerDelegate?.imagePickerDidChangePicking!(models: self.configModel.selectedModels)
         }
     }
     //移除所选的model
-    func removeAssetModel(with model: DPAssetModel) {
+    func removeAssetModel(with model: DKAssetModel) {
         for (index, itemModel) in self.configModel.selectedModels.enumerated() {
             if model.asset?.localIdentifier == itemModel.asset?.localIdentifier {
                 self.configModel.selectedModels.remove(at: index)
@@ -154,12 +154,12 @@ class DPImageManager: NSObject {
                 break
             }
         }
-        if let delegate = self.pickerDelegate, delegate.responds(to: #selector(DPImagePickerDelegate.imagePickerDidChangePicking(models:))) {
+        if let delegate = self.pickerDelegate, delegate.responds(to: #selector(DKImagePickerDelegate.imagePickerDidChangePicking(models:))) {
             self.pickerDelegate?.imagePickerDidChangePicking!(models: self.configModel.selectedModels)
         }
     }
     
-    func removeMuiltyAssetModel(with models: [DPAssetModel]) {
+    func removeMuiltyAssetModel(with models: [DKAssetModel]) {
         for (index, itemModel) in self.configModel.selectedModels.enumerated().reversed() {
             for model in models {
                 if model.asset?.localIdentifier == itemModel.asset?.localIdentifier {
@@ -169,7 +169,7 @@ class DPImageManager: NSObject {
             }
         }
 
-        if let delegate = self.pickerDelegate, delegate.responds(to: #selector(DPImagePickerDelegate.imagePickerDidChangePicking(models:))) {
+        if let delegate = self.pickerDelegate, delegate.responds(to: #selector(DKImagePickerDelegate.imagePickerDidChangePicking(models:))) {
             self.pickerDelegate?.imagePickerDidChangePicking!(models: self.configModel.selectedModels)
         }
     }
@@ -216,8 +216,8 @@ class DPImageManager: NSObject {
                     }
                 }
                 DKLoadingView.hide()
-                if let delegate = self.pickerDelegate, delegate.responds(to: #selector(DPImagePickerDelegate.imagePickerDidFinishPicking(photos:infos:sourceAssets:))) {
-                    delegate.imagePickerDidFinishPicking!(photos: photos as! [UIImage], infos: infos, sourceAssets: assetModels as! [DPAssetModel])
+                if let delegate = self.pickerDelegate, delegate.responds(to: #selector(DKImagePickerDelegate.imagePickerDidFinishPicking(photos:infos:sourceAssets:))) {
+                    delegate.imagePickerDidFinishPicking!(photos: photos as! [UIImage], infos: infos, sourceAssets: assetModels as! [DKAssetModel])
                 }
             })
         }
@@ -245,7 +245,7 @@ class DPImageManager: NSObject {
     
     //MARK: - 获得相册/相册数组
     //获取相机流（相机胶卷）
-    func getCameraRollAlbum(allowPickingVideo: Bool, allowPickingImage: Bool, complete: ((_ model: DPAlbumModel)->())?) {
+    func getCameraRollAlbum(allowPickingVideo: Bool, allowPickingImage: Bool, complete: ((_ model: DKAlbumModel)->())?) {
         let option = self.fetchOption(allowPickingVideo: allowPickingVideo, allowPickingImage: allowPickingImage)
         let smartAlbums: PHFetchResult<PHAssetCollection> = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.smartAlbum, subtype: PHAssetCollectionSubtype.albumRegular, options: nil)
         let count = smartAlbums.count
@@ -267,8 +267,8 @@ class DPImageManager: NSObject {
     }
     
     //获取大部分相册
-    func getAllAlbums(allowPickingVideo: Bool, allowPickingImage: Bool, complete: ((_ models: [DPAlbumModel])->())?) {
-        var albumArr = [DPAlbumModel]()
+    func getAllAlbums(allowPickingVideo: Bool, allowPickingImage: Bool, complete: ((_ models: [DKAlbumModel])->())?) {
+        var albumArr = [DKAlbumModel]()
         let option = self.fetchOption(allowPickingVideo: allowPickingVideo, allowPickingImage: allowPickingImage)
 
         // 我的照片流 1.6.10重新加入..
@@ -295,7 +295,7 @@ class DPImageManager: NSObject {
                     continue
                 }
 
-                if let delegate = self.pickerDelegate, delegate.responds(to: #selector(DPImagePickerDelegate.isAlbumCanSelect(albumName:result:))) {
+                if let delegate = self.pickerDelegate, delegate.responds(to: #selector(DKImagePickerDelegate.isAlbumCanSelect(albumName:result:))) {
                     if delegate.isAlbumCanSelect!(albumName: collection.localizedTitle ?? "", result: result) == false {
                         continue
                     }
@@ -327,7 +327,7 @@ class DPImageManager: NSObject {
     }
 
     // 获取 视频相册
-    func getVideoAlbum(allowPickingVideo: Bool, allowPickingImage: Bool, complete: ((_ model: DPAlbumModel)->())?) {
+    func getVideoAlbum(allowPickingVideo: Bool, allowPickingImage: Bool, complete: ((_ model: DKAlbumModel)->())?) {
     
         let option = self.fetchOption(allowPickingVideo: allowPickingVideo, allowPickingImage: allowPickingImage)
         let smartAlbums: PHFetchResult<PHAssetCollection> = PHAssetCollection.fetchAssetCollections(with: PHAssetCollectionType.smartAlbum, subtype: PHAssetCollectionSubtype.albumRegular, options: nil)
@@ -351,8 +351,8 @@ class DPImageManager: NSObject {
     
     //MARK: - 获得相册中Asset
     //获取相册中的所有asset
-    func getAssets(fetchResult: PHFetchResult<PHAsset>, allowPickingVideo: Bool, allowPickingImage: Bool, complete: ((_ models: [DPAssetModel])->())?) {
-        var photoArr = [DPAssetModel]()
+    func getAssets(fetchResult: PHFetchResult<PHAsset>, allowPickingVideo: Bool, allowPickingImage: Bool, complete: ((_ models: [DKAssetModel])->())?) {
+        var photoArr = [DKAssetModel]()
         fetchResult.enumerateObjects { (obj, idx, stop) in
             let model = self.createAssetModel(asset: obj, allowPickingVideo: allowPickingVideo, allowPickingImage: allowPickingImage)
             if model != nil {
@@ -364,7 +364,7 @@ class DPImageManager: NSObject {
         }
     }
     //获取单个asset
-    func getSingleAsset(fetchResult: PHFetchResult<PHAsset>, index: Int, allowPickingVideo: Bool, allowPickingImage: Bool, complete: ((_ model: DPAssetModel?)->())?) {
+    func getSingleAsset(fetchResult: PHFetchResult<PHAsset>, index: Int, allowPickingVideo: Bool, allowPickingImage: Bool, complete: ((_ model: DKAssetModel?)->())?) {
         if index < fetchResult.count {
             let asset = fetchResult.object(at: index)
             let model = self.createAssetModel(asset: asset, allowPickingVideo: allowPickingVideo, allowPickingImage: allowPickingImage)
@@ -379,7 +379,7 @@ class DPImageManager: NSObject {
     }
     
     //获取单个asset
-    func getPosterAsset(albumModel: DPAlbumModel, complete: ((_ asset: DPAssetModel?)->())?) {
+    func getPosterAsset(albumModel: DKAlbumModel, complete: ((_ asset: DKAssetModel?)->())?) {
         var asset = albumModel.result?.lastObject
         if !self.configModel.sortAscendingByModificationDate {
             asset = albumModel.result?.firstObject
@@ -397,8 +397,8 @@ class DPImageManager: NSObject {
     }
 
     /// 获取asset的资源类型
-    func getAssetType(asset: PHAsset) -> DPAssetModelMediaType {
-        var type = DPAssetModelMediaType.photo;
+    func getAssetType(asset: PHAsset) -> DKAssetModelMediaType {
+        var type = DKAssetModelMediaType.photo;
         if asset.mediaType == PHAssetMediaType.video {
             type = .video
         } else if asset.mediaType == PHAssetMediaType.audio {
@@ -436,7 +436,7 @@ class DPImageManager: NSObject {
     
     //MARK: - 获得照片
     //获取封面图
-    func getPosterImage(albumModel: DPAlbumModel, complete:((_ postImage: UIImage)->())?) {
+    func getPosterImage(albumModel: DKAlbumModel, complete:((_ postImage: UIImage)->())?) {
         self.getPosterAsset(albumModel: albumModel) { (model) in
             if let asset = model?.asset {
                 _ = IMGInstance.getPhotoNoProgress(asset: asset, photoWidth: 80, complete: { (photo, info, isDegraded) in
@@ -782,7 +782,7 @@ class DPImageManager: NSObject {
     }
     
     //获得一组照片的大小
-    func getPhotosBytes(photos: [DPAssetModel], complete: ((_ totalBytes: String, _ allPhotoByte: Int)->())?) {
+    func getPhotosBytes(photos: [DKAssetModel], complete: ((_ totalBytes: String, _ allPhotoByte: Int)->())?) {
         var dataLength = 0
         var assetCount = 0
         for item in photos {
@@ -818,8 +818,8 @@ class DPImageManager: NSObject {
     
     //MARK:- private action
     
-    private func createAlbumModel(result: PHFetchResult<PHAsset>, name: String, isCameraRoll: Bool) -> DPAlbumModel {
-        let model = DPAlbumModel.init()
+    private func createAlbumModel(result: PHFetchResult<PHAsset>, name: String, isCameraRoll: Bool) -> DKAlbumModel {
+        let model = DKAlbumModel.init()
         model.result = result
         model.name = name
         model.isCameraRoll = isCameraRoll
@@ -827,9 +827,9 @@ class DPImageManager: NSObject {
         return model
     }
 
-    private func createAssetModel(asset: PHAsset, allowPickingVideo:Bool, allowPickingImage: Bool) -> DPAssetModel? {
+    private func createAssetModel(asset: PHAsset, allowPickingVideo:Bool, allowPickingImage: Bool) -> DKAssetModel? {
 
-        if let delegate = self.pickerDelegate, delegate.responds(to: #selector(DPImagePickerDelegate.isAssetCanSelect(asset:))) {
+        if let delegate = self.pickerDelegate, delegate.responds(to: #selector(DKImagePickerDelegate.isAssetCanSelect(asset:))) {
             if delegate.isAssetCanSelect!(asset: asset) == false {
                 return nil
             }
@@ -856,14 +856,14 @@ class DPImageManager: NSObject {
         if type == .video {
             timeLength = self.getNewTime(from: Int(asset.duration))
         }
-        let model = DPAssetModel.createModel(with: asset, type: type, timeLength: timeLength)
+        let model = DKAssetModel.createModel(with: asset, type: type, timeLength: timeLength)
         return model;
     }
     
     //MARK:- setter & getter
     
-    lazy var configModel: DPImageConfigModel = {
-        return DPImageConfigModel()
+    lazy var configModel: DKImageConfigModel = {
+        return DKImageConfigModel()
     }()
     
     @available (iOS 9.0, *)
@@ -872,7 +872,7 @@ class DPImageManager: NSObject {
     }()
 }
 
-extension DPImageManager: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+extension DKImageManager: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let type: String = info[UIImagePickerController.InfoKey.mediaType] as! String
         if type == "public.image" {
@@ -885,11 +885,11 @@ extension DPImageManager: UIImagePickerControllerDelegate, UINavigationControlle
                                     self?.configModel.systemImagePickerVCCompleteBlock!(model)
                                 }
                                 //如果有代理则走代理，否则添加到所选中的数组中
-                                if let delegate = self?.pickerDelegate, delegate.responds(to: #selector(DPImagePickerDelegate.imagePickerDidAddNewAsset(photo:model:))) {
+                                if let delegate = self?.pickerDelegate, delegate.responds(to: #selector(DKImagePickerDelegate.imagePickerDidAddNewAsset(photo:model:))) {
                                     self?.pickerDelegate?.imagePickerDidAddNewAsset!(photo: photo, model: model)
                                 }else {
 //                                    if self?.configModel.allowCrop == true {
-//                                        let vc = DPImagePreviewViewController.init()
+//                                        let vc = DKImagePreviewViewController.init()
 //                                        vc.models = [model]
 //                                        vc.curIndex = 0
 //                                        vc.isCropImage = true

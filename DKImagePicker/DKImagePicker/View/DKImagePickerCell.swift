@@ -1,5 +1,5 @@
 //
-//  DPImagePickerCell.swift
+//  DKImagePickerCell.swift
 //  DatePlay
 //
 //  Created by 张昭 on 2018/10/17.
@@ -10,14 +10,14 @@ import UIKit
 import AVKit
 import Photos
 
-protocol DPImagePickerCellDelegate: NSObjectProtocol {
-    func cellSelectBtnWillClicked(with model: DPAssetModel, isSelected: Bool,cell: DPImagePickerCell) -> Bool
-    func cellSelectBtnDidClicked(with model: DPAssetModel, isSelected: Bool,cell: DPImagePickerCell)
+protocol DKImagePickerCellDelegate: NSObjectProtocol {
+    func cellSelectBtnWillClicked(with model: DKAssetModel, isSelected: Bool,cell: DKImagePickerCell) -> Bool
+    func cellSelectBtnDidClicked(with model: DKAssetModel, isSelected: Bool,cell: DKImagePickerCell)
 }
 
-class DPImagePickerCell: UICollectionViewCell {
+class DKImagePickerCell: UICollectionViewCell {
     
-    weak var delegate: DPImagePickerCellDelegate?
+    weak var delegate: DKImagePickerCellDelegate?
 
     var representedAssetIdentifier: String?
     var imageRequestID: Int32 = 0
@@ -46,7 +46,7 @@ class DPImagePickerCell: UICollectionViewCell {
         self.index = self.type == .video ? 0 : IMGInstance.calculateCellSelectedIndex(self.model!)
     }
     
-    fileprivate func bindDataToView(_ model: DPAssetModel) {
+    fileprivate func bindDataToView(_ model: DKAssetModel) {
         if let asset = model.asset {
             representedAssetIdentifier = asset.localIdentifier
             let imgRequestID = IMGInstance.getPhotoAllParams(asset: asset, photoWidth: self.width, networkAccessAllowed: false, progressHandler: nil) { [weak self](photo, info, isDegraded) in
@@ -139,7 +139,7 @@ class DPImagePickerCell: UICollectionViewCell {
         }
     }
     
-    fileprivate func handleDidSelectPhoto(_ model: DPAssetModel, isSelected: Bool) {
+    fileprivate func handleDidSelectPhoto(_ model: DKAssetModel, isSelected: Bool) {
         if isSelected {
             self.selectPhotoButton.isSelected = false
             model.isSelected = false
@@ -201,7 +201,7 @@ class DPImagePickerCell: UICollectionViewCell {
             }
         }
     }
-    var model: DPAssetModel? {
+    var model: DKAssetModel? {
         didSet {
             if model != nil {
                 bindDataToView(model!)
@@ -209,7 +209,7 @@ class DPImagePickerCell: UICollectionViewCell {
         }
     }
     
-    var type: DPAssetModelMediaType? {
+    var type: DKAssetModelMediaType? {
         didSet {
             if type == .photo || type == .livePhoto || (type == .photoGif && !IMGInstance.configModel.allowPickingGif) || IMGInstance.configModel.allowPickingMultipleVideo {
                 self.selectImageView.isHidden = !IMGInstance.configModel.showSelectBtn

@@ -1,5 +1,5 @@
 //
-//  DPAlbumPickerView.swift
+//  DKAlbumPickerView.swift
 //  DatePlay
 //
 //  Created by 张昭 on 2018/10/23.
@@ -8,20 +8,20 @@
 
 import UIKit
 
-protocol DPAlbumPickerViewDelegate: NSObjectProtocol {
+protocol DKAlbumPickerViewDelegate: NSObjectProtocol {
     
     /// 选中的相簿
     ///
     /// - Parameter album: 相簿
-    func didSelectAlbum(_ album: DPAlbumModel)
+    func didSelectAlbum(_ album: DKAlbumModel)
 }
 
-class DPAlbumPickerView: UIView {
+class DKAlbumPickerView: UIView {
 
     fileprivate var tableView: UITableView?
-    fileprivate var dataSource: [DPAlbumModel] = []
+    fileprivate var dataSource: [DKAlbumModel] = []
     
-    weak var delegate: DPAlbumPickerViewDelegate?
+    weak var delegate: DKAlbumPickerViewDelegate?
     
     deinit {
         tableView?.delegate = nil
@@ -32,7 +32,7 @@ class DPAlbumPickerView: UIView {
         super.init(frame: frame)
         
         tableView = UITableView.init(frame: self.bounds, style: UITableView.Style.plain)
-        tableView?.register(DPAlbumPickerTableViewCell.self, forCellReuseIdentifier:  NSStringFromClass(DPAlbumPickerTableViewCell.self))
+        tableView?.register(DKAlbumPickerTableViewCell.self, forCellReuseIdentifier:  NSStringFromClass(DKAlbumPickerTableViewCell.self))
         addSubview(tableView!)
         tableView?.delegate = self
         tableView?.dataSource = self
@@ -42,7 +42,7 @@ class DPAlbumPickerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configTableViewData(with albumModels: [DPAlbumModel]) {
+    func configTableViewData(with albumModels: [DKAlbumModel]) {
         self.dataSource.removeAll()
         self.dataSource.append(contentsOf: albumModels)
         self.refreshTableViewData()
@@ -60,14 +60,14 @@ class DPAlbumPickerView: UIView {
     }
 }
 
-extension DPAlbumPickerView: UITableViewDelegate, UITableViewDataSource {
+extension DKAlbumPickerView: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataSource.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(DPAlbumPickerTableViewCell.self)) as! DPAlbumPickerTableViewCell
-        let model: DPAlbumModel = dataSource[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: NSStringFromClass(DKAlbumPickerTableViewCell.self)) as! DKAlbumPickerTableViewCell
+        let model: DKAlbumModel = dataSource[indexPath.row]
         
         cell.showSelectedIcon = IMGInstance.configModel.selectedAlbumModel?.name == model.name
         cell.model = model

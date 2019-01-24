@@ -1,5 +1,5 @@
 //
-//  DPImagePreviewViewController.swift
+//  DKImagePreviewViewController.swift
 //  DatePlay
 //
 //  Created by 杜奎 on 2018/11/1.
@@ -10,9 +10,9 @@ import UIKit
 import AVKit
 import Photos
 
-class DPImagePreviewViewController: UIViewController, UICollectionViewDelegate,UICollectionViewDataSource {
+class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,UICollectionViewDataSource {
 
-    var models: [DPAssetModel]?
+    var models: [DKAssetModel]?
 
     var curIndex: Int = 0
     
@@ -24,7 +24,7 @@ class DPImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
 //    private var alertView: DPAlertView?
     private var photoTempArray = [UIImage]()
     private var assetTempArray = [PHAsset]()
-    private var modelTempArray = [DPAssetModel]()
+    private var modelTempArray = [DKAssetModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +73,7 @@ class DPImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
         
         if IMGInstance.configModel.allowCrop {
             view.addSubview(self.cropBgView)
-            DPCropViewManager.overlayClipping(with: self.cropBgView, cropRect: IMGInstance.configModel.cropRect, containerView: self.view, needCircleCrop: IMGInstance.configModel.needCircleCrop)
+            DKCropViewManager.overlayClipping(with: self.cropBgView, cropRect: IMGInstance.configModel.cropRect, containerView: self.view, needCircleCrop: IMGInstance.configModel.needCircleCrop)
             view.addSubview(self.cropView)
             if IMGInstance.configModel.cropViewSettingBlock != nil {
                 IMGInstance.configModel.cropViewSettingBlock!(self.cropView)
@@ -129,7 +129,7 @@ class DPImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
             IMGInstance.configModel.selectedAssets.append(item.asset!)
         }
         IMGInstance.configModel.selectedModels = self.modelTempArray
-        if let delegate = IMGInstance.pickerDelegate, delegate.responds(to: #selector(DPImagePickerDelegate.imagePickerDidChangePicking(models:))) {
+        if let delegate = IMGInstance.pickerDelegate, delegate.responds(to: #selector(DKImagePickerDelegate.imagePickerDidChangePicking(models:))) {
             IMGInstance.pickerDelegate?.imagePickerDidChangePicking!(models: IMGInstance.configModel.selectedModels)
         }
     }
@@ -182,9 +182,9 @@ class DPImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
         
         if IMGInstance.configModel.allowCrop {
             let indexPath = IndexPath.init(row: curIndex, section: 0)
-            let cell = self.collectionView.cellForItem(at: indexPath) as! DPPhotoPreviewCell
-            if let cropedImage = DPCropViewManager.cropImage(with: cell.previewView.imageView, toRect: IMGInstance.configModel.cropRect, zoomScale: cell.previewView.scrollView.zoomScale, containerView: self.view) {
-                if let delegate = IMGInstance.pickerDelegate, delegate.responds(to: #selector(DPImagePickerDelegate.imagePickerDidFinishPicking(photos:infos:sourceAssets:))) {
+            let cell = self.collectionView.cellForItem(at: indexPath) as! DKPhotoPreviewCell
+            if let cropedImage = DKCropViewManager.cropImage(with: cell.previewView.imageView, toRect: IMGInstance.configModel.cropRect, zoomScale: cell.previewView.scrollView.zoomScale, containerView: self.view) {
+                if let delegate = IMGInstance.pickerDelegate, delegate.responds(to: #selector(DKImagePickerDelegate.imagePickerDidFinishPicking(photos:infos:sourceAssets:))) {
                     delegate.imagePickerDidFinishPicking!(photos: [cropedImage], infos: [], sourceAssets: [cell.model!])
                 }
             }
@@ -226,7 +226,7 @@ class DPImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let assetModel = self.models![indexPath.row]
-        let cell: DPPhotoPreviewCell = collectionView.dequeueReusableCell(withReuseIdentifier:  NSStringFromClass(DPPhotoPreviewCell.self), for: indexPath) as! DPPhotoPreviewCell
+        let cell: DKPhotoPreviewCell = collectionView.dequeueReusableCell(withReuseIdentifier:  NSStringFromClass(DKPhotoPreviewCell.self), for: indexPath) as! DKPhotoPreviewCell
         cell.cropRect = IMGInstance.configModel.cropRect
         cell.allowCrop = IMGInstance.configModel.allowCrop
         cell.imageProgressUpdateBlock = {[weak self] progress in
@@ -246,13 +246,13 @@ class DPImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if cell is DPPhotoPreviewCell {
-            (cell as! DPPhotoPreviewCell).recoverSubviews()
+        if cell is DKPhotoPreviewCell {
+            (cell as! DKPhotoPreviewCell).recoverSubviews()
         }
     }
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        if cell is DPPhotoPreviewCell {
-            (cell as! DPPhotoPreviewCell).recoverSubviews()
+        if cell is DKPhotoPreviewCell {
+            (cell as! DKPhotoPreviewCell).recoverSubviews()
         }
     }
     
@@ -353,8 +353,8 @@ class DPImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
         collection.showsHorizontalScrollIndicator = false
         collection.contentOffset = CGPoint.zero
         collection.contentSize = CGSize.init(width: 0, height: 0)
-        collection.register(DPPhotoPreviewCell.self, forCellWithReuseIdentifier: NSStringFromClass(DPPhotoPreviewCell.self))
-        collection.register(DPBaseAssetCell.self, forCellWithReuseIdentifier: NSStringFromClass(DPBaseAssetCell.self))
+        collection.register(DKPhotoPreviewCell.self, forCellWithReuseIdentifier: NSStringFromClass(DKPhotoPreviewCell.self))
+        collection.register(DKBaseAssetCell.self, forCellWithReuseIdentifier: NSStringFromClass(DKBaseAssetCell.self))
 
         return collection
     }()

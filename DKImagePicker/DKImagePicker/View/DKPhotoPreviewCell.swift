@@ -1,5 +1,5 @@
 //
-//  DPPhotoPreviewCell.swift
+//  DKPhotoPreviewCell.swift
 //  DatePlay
 //
 //  Created by 杜奎 on 2018/11/1.
@@ -10,7 +10,7 @@ import UIKit
 import AVKit
 import Photos
 
-class DPPhotoPreviewCell: DPBaseAssetCell {
+class DKPhotoPreviewCell: DKBaseAssetCell {
     
     var imageProgressUpdateBlock: ((_ progress: Double)->())?
     
@@ -31,7 +31,7 @@ class DPPhotoPreviewCell: DPBaseAssetCell {
 
     //MARK:- setter & getter
     
-    override var model: DPAssetModel? {
+    override var model: DKAssetModel? {
         didSet {
             previewView.asset = model?.asset
         }
@@ -49,8 +49,8 @@ class DPPhotoPreviewCell: DPBaseAssetCell {
         }
     }
     
-    lazy var previewView: DPPhotoPreviewView = {
-        let view = DPPhotoPreviewView.init(frame: self.bounds)
+    lazy var previewView: DKPhotoPreviewView = {
+        let view = DKPhotoPreviewView.init(frame: self.bounds)
         view.singleTapBlock = {[weak self] in
             if self?.singleTapBlock != nil {
                 self?.singleTapBlock!()
@@ -66,7 +66,7 @@ class DPPhotoPreviewCell: DPBaseAssetCell {
 }
 
 
-class DPPhotoPreviewView: UIView, UIScrollViewDelegate {
+class DKPhotoPreviewView: UIView, UIScrollViewDelegate {
     private let progressH: CGFloat = 40
     var cropRect: CGRect = CGRect.zero
     var imageRequestID: Int32?
@@ -203,7 +203,7 @@ class DPPhotoPreviewView: UIView, UIScrollViewDelegate {
 
     //MARK:- setter & getter
     
-    var model: DPAssetModel? {
+    var model: DKAssetModel? {
         didSet {
             if let assetModel = model {
                 scrollView.setZoomScale(1.0, animated: false)

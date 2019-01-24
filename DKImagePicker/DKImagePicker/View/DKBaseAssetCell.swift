@@ -1,5 +1,5 @@
 //
-//  DPBaseAssetCell.swift
+//  DKBaseAssetCell.swift
 //  DatePlay
 //
 //  Created by 杜奎 on 2018/11/1.
@@ -8,10 +8,10 @@
 
 import UIKit
 
-class DPBaseAssetCell: UICollectionViewCell {
+class DKBaseAssetCell: UICollectionViewCell {
     
     var singleTapBlock: (()->())?
-    var model: DPAssetModel?
+    var model: DKAssetModel?
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
