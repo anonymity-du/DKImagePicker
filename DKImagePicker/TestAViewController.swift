@@ -13,7 +13,7 @@ class TestAViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.navigationItem.title = "A"
+        self.navigationItem.title = "Full Screen"
         self.view.backgroundColor = UIColor.red
         
         

@@ -27,6 +27,9 @@ let kTabbarSafeBottomMargin: CGFloat = kIPhoneX ? 34.0 : 0.0
 let kStatusSafeMargin: CGFloat = kIPhoneX ? 24.0 : 0.0
 let kStatusBarAndNavigationBarHeight: CGFloat = kIPhoneX ? 88.0 : 64.0
 
+let kAdaptiveScale: CGFloat = UIScreen.main.bounds.size.height < 569 ? 0.7 : 1.0
+let K320Scale: CGFloat = UIScreen.main.bounds.size.height < 569 ? 320.0 / 375.0 : 1.0
+
 //MARK: - notification name
 
 extension Notification.Name {
@@ -43,4 +46,13 @@ func adjustsScrollViewInsets(scrollView: UIScrollView) {
 
 func kFrontWindow() -> UIWindow {
     return (UIApplication.shared.delegate as! AppDelegate).window!
+}
+
+//MARK: - 文字大小
+
+func MULTILINE_TEXT_SIZE(text: String, font: UIFont, maxSize: CGSize) -> CGSize {
+    let content = text as NSString
+    var size = content.boundingRect(with: maxSize, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSAttributedString.Key.font: font], context: nil).size
+    size = CGSize.init(width: ceil(size.width), height: ceil(size.height))
+    return size
 }

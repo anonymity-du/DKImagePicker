@@ -866,10 +866,10 @@ class DKImageManager: NSObject {
         return DKImageConfigModel()
     }()
     
-    @available (iOS 9.0, *)
-    lazy var assetLibrary: ALAssetsLibrary = {
-        return ALAssetsLibrary.init()
-    }()
+//    @available (iOS 9.0, *)
+//    lazy var assetLibrary: ALAssetsLibrary = {
+//        return ALAssetsLibrary.init()
+//    }()
 }
 
 extension DKImageManager: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

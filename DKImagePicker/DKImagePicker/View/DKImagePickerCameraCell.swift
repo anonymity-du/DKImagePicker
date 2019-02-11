@@ -17,11 +17,10 @@ class DKImagePickerCameraCell: UICollectionViewCell {
         
         let imgView = UIImageView()
         imgView.image = UIImage.init(named: "ic_login_camera")
+        imgView.sizeToFit()
         contentView.addSubview(imgView)
-//        imgView.snp.makeConstraints { (make) in
-//            make.center.equalToSuperview()
-//        }
-       
+        imgView.centerX = self.width * 0.5
+        imgView.centerY = self.height * 0.5
     }
     
     required init?(coder aDecoder: NSCoder) {
