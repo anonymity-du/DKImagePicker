@@ -56,3 +56,24 @@ func MULTILINE_TEXT_SIZE(text: String, font: UIFont, maxSize: CGSize) -> CGSize 
     size = CGSize.init(width: ceil(size.width), height: ceil(size.height))
     return size
 }
+
+//控制器
+
+func kTopViewController() -> UIViewController? {
+    return kTopViewController(root: kFrontWindow().rootViewController)
+}
+
+func kTopViewController(root: UIViewController?) -> UIViewController? {
+    if root is UINavigationController {
+        let nav = root as! UINavigationController
+        return kTopViewController(root:nav.viewControllers.last)
+    }
+    if root is UITabBarController {
+        let tab = root as! UITabBarController
+        return kTopViewController(root:tab.selectedViewController)
+    }
+    if root?.presentedViewController != nil {
+        return kTopViewController(root:root?.presentedViewController)
+    }
+    return root
+}

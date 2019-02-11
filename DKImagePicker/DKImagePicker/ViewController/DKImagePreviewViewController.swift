@@ -21,7 +21,7 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
     
     private var hideBar = false
     private var progress: Double = 0
-//    private var alertView: DPAlertView?
+    private var alertView: DKAlertView?
     private var photoTempArray = [UIImage]()
     private var assetTempArray = [PHAsset]()
     private var modelTempArray = [DKAssetModel]()
@@ -30,6 +30,7 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
         super.viewDidLoad()
 
         self.loadSubview()
+        self.navigationController?.navigationBar.isHidden = true
         self.automaticallyAdjustsScrollViewInsets = false
         self.modelTempArray.append(contentsOf: IMGInstance.configModel.selectedModels)
         self.assetTempArray.append(contentsOf: IMGInstance.configModel.selectedAssets)
@@ -66,10 +67,13 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
         title = isCropImage ? "图片裁剪" : "图片预览"
         
         view.addSubview(self.collectionView)
-        view.addSubview(bottomBar)
+        view.addSubview(self.navigationBar)
+        view.addSubview(self.bottomBar)
         bottomBar.bottom = self.view.height
         
-//        let backBtn = self.navigationBar.fetchValidFirstLeftItemView() as! UIButton
+        self.navigationBar.addSubview(self.backBtn)
+        self.backBtn.x = 16
+        self.backBtn.centerY = self.navigationBar.height - 22
         
         if IMGInstance.configModel.allowCrop {
             view.addSubview(self.cropBgView)
@@ -78,16 +82,18 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
             if IMGInstance.configModel.cropViewSettingBlock != nil {
                 IMGInstance.configModel.cropViewSettingBlock!(self.cropView)
             }
-//            setNavigationBarItems(isLeft: false, customViews: [self.completeBtn], space: 0, margin: kBarbuttonItemSpace)
-//            self.navigationBar.title = "裁剪"
+            self.navigationBar.addSubview(self.completeBtn)
             self.bottomBar.isHidden = true
+            self.completeBtn.right = self.view.width - 16
+            self.completeBtn.centerY = self.navigationBar.height - 22
         }else {
-//            backBtn.imageView?.tintColor = UIColor.white
-//            let backImage = backBtn.imageView?.image
-//            backBtn.setImage(backImage?.withRenderingMode(.alwaysTemplate), for: .normal)
-//            setNavigationBarItems(isLeft: false, customViews: [self.selectedView], space: 0, margin: kBarbuttonItemSpace)
-//            self.navigationBar.titleView?.isHidden = true
-//            self.navigationBar.backgroundColor = UIColor.init(white: 0, alpha: 0.4)
+            self.navigationBar.addSubview(self.selectedView)
+            self.backBtn.imageView?.tintColor = UIColor.white
+            let backImage = self.backBtn.imageView?.image
+            self.backBtn.setImage(backImage?.withRenderingMode(.alwaysTemplate), for: .normal)
+            self.navigationBar.backgroundColor = UIColor.init(white: 0, alpha: 0.4)
+            self.selectedView.centerY = self.navigationBar.height - 22
+            self.selectedView.right = self.view.width - 16
         }
     }
     
@@ -95,20 +101,20 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
         return IMGInstance.configModel.allowCrop ? .default : .lightContent
     }
     
-//    override func pop() {
-//        if IMGInstance.configModel.needPreviewTempSelected {
-//            self.clearTemp()
-//        }
-//        if IMGInstance.configModel.previewVCBackBlock != nil {
-//            IMGInstance.configModel.previewVCBackBlock!()
-//        }
-//
-//        if self.navigationController?.viewControllers.count == 1 {
-//            self.navigationController?.dismiss(animated: true, completion: nil)
-//        }else {
-//            super.pop()
-//        }
-//    }
+    func pop() {
+        if IMGInstance.configModel.needPreviewTempSelected {
+            self.clearTemp()
+        }
+        if IMGInstance.configModel.previewVCBackBlock != nil {
+            IMGInstance.configModel.previewVCBackBlock!()
+        }
+
+        if self.navigationController?.viewControllers.count == 1 {
+            self.navigationController?.dismiss(animated: true, completion: nil)
+        }else {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
     
 //    override func dismissAnimated(animated: Bool) {
 //
@@ -171,8 +177,8 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
     @objc func completeBtnClicked() {
         
         if progress > 0 && progress < 1  {
-//            alertView = DPAlertView.init("提示", message: "正在从iCloud同步照片", buttonTitles: ["确定"], leftBtnClicked: nil, rightBtnClicked: nil)
-//            alertView?.show()
+            alertView = DKAlertView.init(title: "提示", message: "正在从iCloud同步照片", buttonTitles: ["确定"], leftBtnActionBlock: nil, rightBtnActionBlock: nil)
+            alertView?.show()
         }
         
         if IMGInstance.configModel.selectedModels.count == 0 && IMGInstance.configModel.maxImagesCount > 0, let model = self.models?[self.curIndex] {
@@ -193,7 +199,7 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
                 IMGInstance.configModel.previewVCCompleteBlock!()
             }else {
 //                IMGInstance.didFinishPicking()
-//                self.pop()
+                self.pop()
             }
         }
     }
@@ -232,10 +238,10 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
         cell.imageProgressUpdateBlock = {[weak self] progress in
             self?.progress = progress
             if progress >= 1 {
-//                if self?.alertView != nil && self?.collectionView.visibleCells.contains(cell) ?? false {
-//                    self?.alertView?.dismiss()
-//                    self?.completeBtnClicked()
-//                }
+                if self?.alertView != nil && self?.collectionView.visibleCells.contains(cell) ?? false {
+                    self?.alertView?.dismiss()
+                    self?.completeBtnClicked()
+                }
             }
         }
         cell.model = assetModel
@@ -383,6 +389,13 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
     private lazy var navigationBar: UIView = {
         let view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.view.width, height: kStatusBarAndNavigationBarHeight))
         return view
+    }()
+    
+    private lazy var backBtn: UIButton = {
+        let btn = UIButton.init(type: UIButton.ButtonType.custom)
+        btn.setImage(UIImage.init(named: "back"), for: .normal)
+        btn.sizeToFit()
+        return btn
     }()
     
 }

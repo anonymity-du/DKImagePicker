@@ -10,15 +10,11 @@ import UIKit
 
 class DKAlbumPickerTableViewCell: UITableViewCell {
     
-    fileprivate let imgView = UIImageView()
-    fileprivate let albumTitleLabel = UILabel()
-    fileprivate let iconImageView = UIImageView()
-    fileprivate let iconRightDot = UIImageView()
-    
     var model: DKAlbumModel? {
         didSet {
             if let mm: DKAlbumModel = model {
                 albumTitleLabel.text = "\(mm.name)（\(mm.count)）"
+                albumTitleLabel.sizeToFit()
                 IMGInstance.getPosterImage(albumModel: mm) { (image) in
                     self.imgView.image = image
                 }
@@ -41,46 +37,59 @@ class DKAlbumPickerTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(imgView)
-        imgView.backgroundColor = UIColor.hexColor("f3f3f3")
-        imgView.contentMode = UIView.ContentMode.scaleAspectFill
-        imgView.clipsToBounds = true
-        
         contentView.addSubview(albumTitleLabel)
-        albumTitleLabel.textColor = UIColor.hexColor("4a4a4a")
-        albumTitleLabel.font = UIFont.systemFont(ofSize: 15)
-        
         contentView.addSubview(iconImageView)
-        iconImageView.image = UIImage.init(named: "ic_selectalbum")
-        iconImageView.isHidden = true
-        
-//        imgView.snp.makeConstraints { (make) in
-//            make.left.equalTo(16)
-//            make.centerY.equalToSuperview()
-//            make.width.height.equalTo(55)
-//        }
-//        albumTitleLabel.snp.makeConstraints { (make) in
-//            make.left.equalTo(self.imgView.snp.right).offset(17)
-//            make.centerY.equalToSuperview()
-//            make.right.lessThanOrEqualTo(-40)
-//        }
-//        iconImageView.snp.makeConstraints { (make) in
-//            make.right.equalTo(-16)
-//            make.centerY.equalToSuperview()
-//        }
-        
         contentView.addSubview(iconRightDot)
-        iconRightDot.image = UIImage.init(named: "ic_selectedbox")
-//        iconRightDot.snp.makeConstraints { (make) in
-//            make.top.equalTo(imgView.snp.top).offset(4)
-//            make.right.equalTo(imgView.snp.right).offset(-4)
-//            make.size.equalTo(CGSize.init(width: 13, height: 13))
-//        }
     }
     
-    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        imgView.x = 16
+        imgView.centerY = self.contentView.height * 0.5
+        
+        albumTitleLabel.x = imgView.right + 17
+        albumTitleLabel.centerY = imgView.centerY
+        
+        iconImageView.right = self.contentView.width - 16
+        iconImageView.centerY = imgView.centerY
+        
+        iconRightDot.y = imgView.y + 4
+        iconRightDot.right = imgView.right - 4
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK:- setter & getter
+    
+    private lazy var imgView: UIImageView = {
+        let view = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 55, height: 55))
+        view.backgroundColor = UIColor.hexColor("f3f3f3")
+        view.contentMode = UIView.ContentMode.scaleAspectFill
+        view.clipsToBounds = true
+        return view
+    }()
+    
+    private lazy var albumTitleLabel: UILabel = {
+        let label = UILabel.init()
+        label.textColor = UIColor.hexColor("4a4a4a")
+        label.font = UIFont.systemFont(ofSize: 15)
+        return label
+    }()
+    
+    private lazy var iconImageView: UIImageView = {
+        let view = UIImageView.init()
+        view.image = UIImage.init(named: "ic_selectalbum")
+        view.isHidden = true
+        view.sizeToFit()
+        return view
+    }()
+    
+    private lazy var iconRightDot: UIImageView = {
+        let view = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 13, height: 13))
+        view.image = UIImage.init(named: "ic_selectedbox")
+        return view
+    }()
 }

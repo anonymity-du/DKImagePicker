@@ -31,6 +31,9 @@ class TestBViewController: UIViewController {
     
     private func changeImgsView() {
         for subview in self.imgsView.subviews {
+            if let selectView = subview as? DKSelectedImageView {
+                selectView.imgView.image = nil
+            }
             subview.removeFromSuperview()
         }
         var height: CGFloat = 0

@@ -77,7 +77,7 @@ class DKSelectedImageView: UIView {
         }
     }
     
-    private lazy var imgView: UIImageView = {
+    private(set) lazy var imgView: UIImageView = {
         let view = UIImageView.init(frame: self.bounds)
         view.contentMode = .scaleAspectFill
         view.clipsToBounds = true

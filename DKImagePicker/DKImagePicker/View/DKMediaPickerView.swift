@@ -155,17 +155,17 @@ extension DKMediaPickerView: UICollectionViewDataSource, UICollectionViewDelegat
         }
         
         if IMGInstance.configModel.allowPreview && model.mediaType != .video {
-//            let vc = DKImagePreviewViewController.init()
-//            vc.models = self.dataSource
-//            vc.curIndex = indexPath.row - self.modelIndex
-//            vc.isCropImage = IMGInstance.configModel.allowCrop
-//            if let nav = IMGInstance.pickerNav {
-//                nav.pushViewController(vc, animated: true)
-//            }else {
-//                let nav = DPBaseNavigationViewController.init(rootViewController: vc)
-//                IMGInstance.pickerNav = nav
-//                DPUtil.topViewController()?.navigationController?.present(nav, animated: true, completion: nil)
-//            }
+            let vc = DKImagePreviewViewController.init()
+            vc.models = self.dataSource
+            vc.curIndex = indexPath.row - self.modelIndex
+            vc.isCropImage = IMGInstance.configModel.allowCrop
+            if let nav = IMGInstance.pickerNav {
+                nav.pushViewController(vc, animated: true)
+            }else {
+                let nav = UINavigationController.init(rootViewController: vc)
+                IMGInstance.pickerNav = nav
+                kTopViewController()?.navigationController?.present(nav, animated: true, completion: nil)
+            }
         } else  {
             IMGInstance.addAssetModel(with: model)
             self.delegate?.mediaPickerViewCellDidSelect(model)

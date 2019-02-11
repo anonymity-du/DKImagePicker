@@ -115,7 +115,7 @@ class DKImagePickerView: UIView {
     }
     
     func deleteImg(index: Int) {
-        if index - 100 > 0 && index - 100 < self.selectedAssetModels.count {
+        if index - 100 >= 0 && index - 100 < self.selectedAssetModels.count {
             let model = self.selectedAssetModels[index - 100]
             IMGInstance.removeAssetModel(with: model)
             self.assetsView.updateCollectionView()
