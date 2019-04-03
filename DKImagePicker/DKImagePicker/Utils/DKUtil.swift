@@ -30,6 +30,8 @@ let kStatusBarAndNavigationBarHeight: CGFloat = kIPhoneX ? 88.0 : 64.0
 let kAdaptiveScale: CGFloat = UIScreen.main.bounds.size.height < 569 ? 0.7 : 1.0
 let K320Scale: CGFloat = UIScreen.main.bounds.size.height < 569 ? 320.0 / 375.0 : 1.0
 
+let kGenericColor = UIColor.hexColor("9B8AE5")
+
 //MARK: - notification name
 
 extension Notification.Name {

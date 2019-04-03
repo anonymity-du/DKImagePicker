@@ -9,110 +9,92 @@
 import UIKit
 
 class TestBViewController: UIViewController {
-
-    private var selectedVideoModel: DKVideoModel?
+    
+    var dataSource = [String]()
+    var dataDict = [String: Any]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         self.navigationItem.title = "Half Screen"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: self.startBtn)
         self.view.backgroundColor = UIColor.white
         
-        self.view.addSubview(self.imgsView)
-        self.view.addSubview(self.bottomAssetView)
-        
-        self.imgsView.y = kNaviBarHeight + 30
-        self.bottomAssetView.bottom = self.view.height - kTabbarHeight
-        
+        self.dataSource.append(contentsOf: [
+            "是否按时间升序",
+            "是否允许有图片",
+            "是否允许有视频",
+            "是否允许图片视频混合",
+            "是否允许多个相册",
+            "是否可以裁剪（单选）"])
+        self.dataDict = [
+            "是否按时间升序": false,
+            "是否允许有图片": true,
+            "是否允许有视频": true,
+            "是否允许图片视频混合": false,
+            "是否允许多个相册": true,
+            "是否可以裁剪（单选）": false]
+        self.tableView.register(DKPropertySelectedCell.self, forCellReuseIdentifier: "DKPropertySelectedCell")
+        self.view.addSubview(self.tableView)
+        self.view.addSubview(self.startBtn)
         // Do any additional setup after loading the view.
     }
     
     //MARK:- action
     
-    private func changeImgsView() {
-        for subview in self.imgsView.subviews {
-            if let selectView = subview as? DKSelectedImageView {
-                selectView.imgView.image = nil
-            }
-            subview.removeFromSuperview()
-        }
-        var height: CGFloat = 0
-
-        var existVideo = false
-        if self.selectedVideoModel != nil {
-            existVideo = true
-        }
-
-        let itemWidth: CGFloat = 74 * K320Scale
-
-        for (index, itemModel) in self.bottomAssetView.selectedAssetModels.enumerated() {
-            let itemView = DKSelectedImageView.init(frame: CGRect.init(x: 0, y: 0, width: itemWidth, height: itemWidth))
-            if index == 0 && itemModel.mediaType == .video {
-                if existVideo == false {
-                    break
-                }else {
-                    itemView.videoModel = self.selectedVideoModel
-                }
-            }else {
-                itemView.assetModel = itemModel
-            }
-            self.imgsView.addSubview(itemView)
-            let col = index%3
-            let row = index/3
-            itemView.tag = 100 + index
-            itemView.selectBlock = { [weak self] in
-                print("itemview \(itemView.tag)")
-
-//                if self?.selectedVideoModel != nil {
-//                    let playView = DPVideoScreenPlayView.init(frame: self?.view.bounds ?? CGRect.zero)
-//                    playView.videoSize = CGSize.init(width: self?.selectedVideoModel?.width ?? 210, height: self?.selectedVideoModel?.height ?? 210)
-//                    playView.outsideFrame = DPUtil.frontWindow().convert(itemView.frame, from: self?.imgsView)
-//                    playView.thumbImage = self?.selectedVideoModel?.coverThumbImg
-//                    playView.url = URL.init(fileURLWithPath: self?.selectedVideoModel?.path ?? "")
-//                    playView.show()
-//                }else if let selectAssets = self?.bottomAssetView.selectedAssetModels {
-//                    let isFirst = self?.inputTextView.inputTextView.isFirstResponder ?? false
-//                    let picPreview = DPPicPreviewPopView.init(assetModels:  selectAssets, initIndex: index)
-//                    picPreview.delegate = self
-//                    picPreview.animationCompleteAction = { isShow in
-//                        if !isShow {
-//                            if isFirst == true {
-//                                self?.inputTextView.inputTextView
-//                                    .becomeFirstResponder()
-//                            }
-//                        }
-//                    }
-//                    picPreview.show()
-//                    self?.view.endEditing(true)
-//                }
-            }
-            itemView.deleteBlock = { [weak self] in
-                let tag = itemView.tag
-                self?.selectedVideoModel = nil //无论是视频还是图片，都可以将选中的视频model置空
-                self?.bottomAssetView.deleteImg(index: tag)
-            }
-            itemView.x = (itemWidth + 4) * CGFloat(col)
-            itemView.y = (itemWidth + 4) * CGFloat(row)
-            height = CGFloat(itemWidth + (itemWidth + 4) * CGFloat(row))
-        }
-        self.imgsView.height = height
+    @objc func startBtnClicked() {
+        let vc = TestBAssetViewController.init(dataDict: self.dataDict)
+        vc.hidesBottomBarWhenPushed = true
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     //MARK:- setter & getter
     
-    private lazy var imgsView: UIView = {
-        let view = UIView.init(frame: CGRect.init(x: 16, y: 0, width: 74 * K320Scale * 3 + 8, height: 0))
-        view.backgroundColor = UIColor.white
+    private lazy var tableView: UITableView = {
+        let view = UITableView.init(frame: CGRect.init(x: 0, y: kStatusBarAndNavigationBarHeight, width: self.view.width, height: CGFloat(self.dataSource.count) * 40), style: .plain)
+        view.tableFooterView = UIView.init()
+        view.delegate = self
+        view.dataSource = self
+        view.separatorStyle = .none
         return view
     }()
     
-    private lazy var bottomAssetView: DKImagePickerView = {
-        let view = DKImagePickerView.init(frame: CGRect.init(x: 0, y: 0, width: self.view.width, height: 267 + kTabbarSafeBottomMargin))
-        view.backgroundColor = UIColor.red
-        view.modelsChangeBlock = { [weak self] _ in
-            self?.changeImgsView()
-        }
-        return view
+    private lazy var startBtn: UIButton = {
+        let btn = UIButton.init(type: UIButton.ButtonType.custom)
+        btn.setTitleColor(kGenericColor, for: .normal)
+        btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        btn.setTitle("打开相册", for: .normal)
+        btn.size = CGSize.init(width: 80, height: 40)
+        btn.addTarget(self, action: #selector(startBtnClicked), for: .touchUpInside)
+        return btn
     }()
+}
+
+extension TestBViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.dataSource.count
+    }
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DKPropertySelectedCell") as! DKPropertySelectedCell
+        let str = self.dataSource[indexPath.row]
+        let data = self.dataDict[str]
+        cell.delegate = self
+        cell.setData(with: str, switchOn: data as? Bool)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 40
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension TestBViewController: DKPropertySelectedCellDelegate {
+    func propertySelectedCellSwitchValueChange(name: String, isOn: Bool) {
+        self.dataDict[name] = isOn
+    }
 }

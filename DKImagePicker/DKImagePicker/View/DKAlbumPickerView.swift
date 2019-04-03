@@ -23,6 +23,12 @@ class DKAlbumPickerView: UIView {
     
     weak var delegate: DKAlbumPickerViewDelegate?
     
+    override var frame: CGRect {
+        didSet {
+            self.tableView?.frame = self.bounds
+        }
+    }
+    
     deinit {
         tableView?.delegate = nil
         tableView?.dataSource = nil

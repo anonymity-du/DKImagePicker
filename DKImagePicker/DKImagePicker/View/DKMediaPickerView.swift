@@ -43,6 +43,12 @@ class DKMediaPickerView: UIView {
         }
     }
     
+    override var frame: CGRect {
+        didSet {
+            self.collectionView?.frame = self.bounds
+        }
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -68,6 +74,7 @@ class DKMediaPickerView: UIView {
 //            make.edges.equalTo(UIEdgeInsets.zero)
 //        })
     }
+    
     
     // MARK: - Public Methods
     

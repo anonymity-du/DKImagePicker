@@ -12,6 +12,8 @@
 		2320AC2621F972A000FA657C /* DKSelectedImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2320AC2521F972A000FA657C /* DKSelectedImageView.swift */; };
 		2320AC2821F973DF00FA657C /* DKVideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2320AC2721F973DF00FA657C /* DKVideoModel.swift */; };
 		2320AC2A21F9764F00FA657C /* DKSystemPermission.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2320AC2921F9764F00FA657C /* DKSystemPermission.swift */; };
+		23330320225367DD00509A90 /* GenericPanGestureHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2333031F225367DD00509A90 /* GenericPanGestureHandler.swift */; };
+		2333032222537A4800509A90 /* UIScrollView+DKExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2333032122537A4800509A90 /* UIScrollView+DKExtension.swift */; };
 		23D2DAE321E72669008D4C79 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DAE221E72669008D4C79 /* AppDelegate.swift */; };
 		23D2DAEA21E72671008D4C79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23D2DAE921E72671008D4C79 /* Assets.xcassets */; };
 		23D2DAED21E72671008D4C79 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23D2DAEB21E72671008D4C79 /* LaunchScreen.storyboard */; };
@@ -41,6 +43,8 @@
 		23D2DB2921E84FAF008D4C79 /* DKToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB2821E84FAF008D4C79 /* DKToastView.swift */; };
 		23D2DB2D21E886B7008D4C79 /* UIView+DKToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D2DB2C21E886B7008D4C79 /* UIView+DKToast.swift */; };
 		23D812A7221120AA00EE6A4C /* DKAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D812A6221120AA00EE6A4C /* DKAlertView.swift */; };
+		23D812A92211815500EE6A4C /* TestBAssetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D812A82211815500EE6A4C /* TestBAssetViewController.swift */; };
+		23D812AB22126DE800EE6A4C /* DKPropertySelectedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D812AA22126DE800EE6A4C /* DKPropertySelectedCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +53,8 @@
 		2320AC2521F972A000FA657C /* DKSelectedImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKSelectedImageView.swift; sourceTree = "<group>"; };
 		2320AC2721F973DF00FA657C /* DKVideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKVideoModel.swift; sourceTree = "<group>"; };
 		2320AC2921F9764F00FA657C /* DKSystemPermission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKSystemPermission.swift; sourceTree = "<group>"; };
+		2333031F225367DD00509A90 /* GenericPanGestureHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericPanGestureHandler.swift; sourceTree = "<group>"; };
+		2333032122537A4800509A90 /* UIScrollView+DKExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+DKExtension.swift"; sourceTree = "<group>"; };
 		23D2DADF21E72669008D4C79 /* DKImagePicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DKImagePicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23D2DAE221E72669008D4C79 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		23D2DAE921E72671008D4C79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -80,6 +86,8 @@
 		23D2DB2821E84FAF008D4C79 /* DKToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKToastView.swift; sourceTree = "<group>"; };
 		23D2DB2C21E886B7008D4C79 /* UIView+DKToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+DKToast.swift"; sourceTree = "<group>"; };
 		23D812A6221120AA00EE6A4C /* DKAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKAlertView.swift; sourceTree = "<group>"; };
+		23D812A82211815500EE6A4C /* TestBAssetViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBAssetViewController.swift; sourceTree = "<group>"; };
+		23D812AA22126DE800EE6A4C /* DKPropertySelectedCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DKPropertySelectedCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +125,7 @@
 				23D2DAF621E72BFA008D4C79 /* TestAViewController.swift */,
 				23D2DAF821E72C12008D4C79 /* TestBViewController.swift */,
 				23D2DAFA21E72C3B008D4C79 /* TestCViewController.swift */,
+				23D812A82211815500EE6A4C /* TestBAssetViewController.swift */,
 				23D2DAE921E72671008D4C79 /* Assets.xcassets */,
 				23D2DAEB21E72671008D4C79 /* LaunchScreen.storyboard */,
 				23D2DAEE21E72671008D4C79 /* Info.plist */,
@@ -138,6 +147,8 @@
 		23D2DB0621E73D49008D4C79 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				2333032122537A4800509A90 /* UIScrollView+DKExtension.swift */,
+				2333031F225367DD00509A90 /* GenericPanGestureHandler.swift */,
 				23D2DB2021E837A3008D4C79 /* UIColor+DKExtension.swift */,
 				23D2DB0721E73D91008D4C79 /* UIView+DKExtension.swift */,
 				23D2DB0921E73E53008D4C79 /* UIImage+DKExtension.swift */,
@@ -178,6 +189,7 @@
 				2320AC2121F721A900FA657C /* DKLoadingView.swift */,
 				2320AC2521F972A000FA657C /* DKSelectedImageView.swift */,
 				23D812A6221120AA00EE6A4C /* DKAlertView.swift */,
+				23D812AA22126DE800EE6A4C /* DKPropertySelectedCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -280,16 +292,20 @@
 				23D2DB0521E73B92008D4C79 /* DKImageConfigModel.swift in Sources */,
 				23D2DB1721E776C1008D4C79 /* DKBaseAssetCell.swift in Sources */,
 				23D2DAE321E72669008D4C79 /* AppDelegate.swift in Sources */,
+				23330320225367DD00509A90 /* GenericPanGestureHandler.swift in Sources */,
 				23D2DB0321E73B92008D4C79 /* DKAlbumModel.swift in Sources */,
 				2320AC2421F96E5C00FA657C /* DKImagePickerView.swift in Sources */,
 				2320AC2221F721A900FA657C /* DKLoadingView.swift in Sources */,
 				23D2DAF721E72BFA008D4C79 /* TestAViewController.swift in Sources */,
 				23D2DB0821E73D91008D4C79 /* UIView+DKExtension.swift in Sources */,
 				23D2DB0A21E73E53008D4C79 /* UIImage+DKExtension.swift in Sources */,
+				23D812AB22126DE800EE6A4C /* DKPropertySelectedCell.swift in Sources */,
 				23D2DB1C21E776C1008D4C79 /* DKAlbumPickerTableViewCell.swift in Sources */,
 				23D2DB1B21E776C1008D4C79 /* DKImagePickerCameraCell.swift in Sources */,
 				2320AC2621F972A000FA657C /* DKSelectedImageView.swift in Sources */,
 				23D2DB1921E776C1008D4C79 /* DKPhotoPreviewCell.swift in Sources */,
+				23D812A92211815500EE6A4C /* TestBAssetViewController.swift in Sources */,
+				2333032222537A4800509A90 /* UIScrollView+DKExtension.swift in Sources */,
 				23D2DAFB21E72C3B008D4C79 /* TestCViewController.swift in Sources */,
 				23D2DB2721E846C8008D4C79 /* DKProgressView.swift in Sources */,
 				2320AC2821F973DF00FA657C /* DKVideoModel.swift in Sources */,

@@ -11,6 +11,7 @@ import AVKit
 import Photos
 
 class DKImageConfigModel: NSObject {
+    //MARK:- Model 数据模型
     //当前选中的相册model
     weak var selectedAlbumModel: DKAlbumModel?
     // 用户选中过的图片数组,目前只用拍照后的asset来填装，然后使用selectedModels
@@ -27,6 +28,7 @@ class DKImageConfigModel: NSObject {
     // 用户选中过的models
     var selectedModels = [DKAssetModel]()
     
+    //MARK:- Math contant 相册相关数学常量
     var thumbnailSize: CGSize = CGSize.zero
     var screenWidth: CGFloat = 0
     var screenHeight: CGFloat = 0
@@ -36,9 +38,10 @@ class DKImageConfigModel: NSObject {
     // 默认600像素宽
     var photoPreviewMaxWidth: CGFloat = 600
     
+    
     var diyTip: String = ""
 
-    //MARK: - config
+    //MARK: - Config Property 配置属性
     //是否需要纠正方向
     var shouldFixOrientation = true
     //列
@@ -111,7 +114,7 @@ class DKImageConfigModel: NSObject {
         }
     }
     
-    //MARK: - crop
+    //MARK: - Crop 裁剪属性
     // 允许裁剪,默认为YES，showSelectBtn为NO才生效
     var allowCrop = false
     //裁剪中横屏和竖屏处理是在转屏时候处理的，由于现在是固定竖屏，所以删掉了那部分代码，需要则添加viewcontroller的转屏回调方法
@@ -128,7 +131,7 @@ class DKImageConfigModel: NSObject {
     // 自定义裁剪框的其他属性
     var cropViewSettingBlock: ((_ cropView: UIView)->())?
 
-    //MARK: - Block
+    //MARK: - Block 回调
     //图片预览或裁剪的返回按钮回调
     var previewVCBackBlock: (()->())?
     //图片预览或裁剪的完成按钮回调
