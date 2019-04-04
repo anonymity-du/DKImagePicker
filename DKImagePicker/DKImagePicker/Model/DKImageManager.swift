@@ -175,7 +175,7 @@ class DKImageManager: NSObject {
     }
     
     //完成选择
-    func didFinishPicking() {
+    func didFinishPicking(with completeBlock: (()->())? = nil) {
         DKLoadingView.show()
         var photos = [Any]()
         var assetModels = [Any]()
@@ -218,6 +218,9 @@ class DKImageManager: NSObject {
                 DKLoadingView.hide()
                 if let delegate = self.pickerDelegate, delegate.responds(to: #selector(DKImagePickerDelegate.imagePickerDidFinishPicking(photos:infos:sourceAssets:))) {
                     delegate.imagePickerDidFinishPicking!(photos: photos as! [UIImage], infos: infos, sourceAssets: assetModels as! [DKAssetModel])
+                }
+                if completeBlock != nil {
+                    completeBlock!()
                 }
             })
         }

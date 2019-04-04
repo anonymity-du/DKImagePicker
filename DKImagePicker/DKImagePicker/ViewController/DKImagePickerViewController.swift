@@ -107,8 +107,9 @@ class DKImagePickerViewController: UIViewController {
     }
     
     @objc fileprivate func doneBtnClicked() {
-        IMGInstance.didFinishPicking()
-        self.dismissAnimated(animated: true)
+        IMGInstance.didFinishPicking {
+//            self.dismissAnimated(animated: true)
+        }
     }
     
     //MARK:- setter & getter
