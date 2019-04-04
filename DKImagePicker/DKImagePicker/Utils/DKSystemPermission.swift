@@ -2,7 +2,7 @@
 //  DKSystemPermission.swift
 //  DKImagePicker
 //
-//  Created by 杜奎 on 2019/1/24.
+//  Created by DU on 2019/1/24.
 //  Copyright © 2019 DU. All rights reserved.
 //
 
@@ -54,7 +54,7 @@ class DKSystemPermission: NSObject {
         return false
     }
     //MARK:- 相机权限
-    func cameraAblumHasAuthority(needAlert: Bool? = true, complete:((_ success: Bool) -> Void)?) -> Bool {
+    static func cameraAblumHasAuthority(needAlert: Bool? = true, complete:((_ success: Bool) -> Void)?) -> Bool {
         let status = AVCaptureDevice.authorizationStatus(for: .video)
         if status == .notDetermined {
             AVCaptureDevice.requestAccess(for: .video) { (suc) in

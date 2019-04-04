@@ -2,8 +2,8 @@
 //  DKImageManager.swift
 //  DatePlay
 //
-//  Created by 杜奎 on 2018/12/5.
-//  Copyright © 2018 杜奎. All rights reserved.
+//  Created by DU on 2018/12/5.
+//  Copyright © 2018 DU. All rights reserved.
 //
 
 import UIKit
@@ -65,58 +65,58 @@ class DKImageManager: NSObject {
         }
     }
 
-//    func pushPhotoPickerVC(delegate: DKImagePickerViewControllerDelegate?)  {
-//        DPSystemPermission.photoAblumAuthority { (success) in
-//            if success  {
-//                let pickerVC = DKImagePickerViewController()
-//                pickerVC.delegate = delegate
-//                var nav: DPBaseNavigationViewController?
-//                if let pickerCurNav = self.pickerNav as? DPBaseNavigationViewController  {
-//                    nav = pickerCurNav
-//                } else {
-//                    nav = DPBaseNavigationViewController.init(rootViewController: pickerVC)
-//                }
-//                self.configModel.shouldFixOrientation = false
-//                if self.pickerNav != nav {
-//                    self.pickerNav = nav
-//                }
-//
-//                if let presentingVC = DPUtil.topViewController() {
-//                    presentingVC.present(nav!, animated: true, completion: nil)
-//                }
-//            }
-//        }
-//    }
+    func pushPhotoPickerVC(delegate: DKImagePickerViewControllerDelegate?)  {
+        _ = DKSystemPermission.photoAblumHasAuthority { (success) in
+            if success  {
+                let pickerVC = DKImagePickerViewController()
+                pickerVC.delegate = delegate
+                var nav: UINavigationController?
+                if let pickerCurNav = self.pickerNav  {
+                    nav = pickerCurNav
+                } else {
+                    nav = UINavigationController.init(rootViewController: pickerVC)
+                }
+                self.configModel.shouldFixOrientation = false
+                if self.pickerNav != nav {
+                    self.pickerNav = nav
+                }
+
+                if let presentingVC = kTopViewController() {
+                    presentingVC.present(nav!, animated: true, completion: nil)
+                }
+            }
+        }
+    }
     
-//    func pushImagePickerController(isTakePhoto: Bool) {
-//        let sourceType = UIImagePickerController.SourceType.camera
-//        if UIImagePickerController.isSourceTypeAvailable(sourceType) {
-//            var mediaTypes: [String] = []
-//            systemImagePicker = UIImagePickerController()
-//            if isTakePhoto {
-//                mediaTypes.append(kUTTypeImage as String)
-//                systemImagePicker?.mediaTypes = mediaTypes
-//                systemImagePicker?.sourceType = UIImagePickerController.SourceType.camera
-//                systemImagePicker?.cameraDevice = .rear
-//                systemImagePicker?.cameraCaptureMode = .photo
-//            }else {
-//                mediaTypes.append(kUTTypeMovie as String)
-//                systemImagePicker?.mediaTypes = mediaTypes
-//                systemImagePicker?.videoMaximumDuration = IMGInstance.configModel.videoMaxDuration
-//                systemImagePicker?.sourceType = UIImagePickerController.SourceType.camera
-//                systemImagePicker?.videoQuality = .typeHigh
-//                systemImagePicker?.cameraDevice = .rear
-//                systemImagePicker?.cameraCaptureMode = .video
-//            }
-//
-//            systemImagePicker?.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-//            systemImagePicker?.delegate = self
-//            if systemImagePicker != nil {
-//                DPUtil.topViewController()?.navigationController?
-//                    .present(systemImagePicker!, animated: true, completion: nil)
-//            }
-//        }
-//    }
+    func pushImagePickerController(isTakePhoto: Bool) {
+        let sourceType = UIImagePickerController.SourceType.camera
+        if UIImagePickerController.isSourceTypeAvailable(sourceType) {
+            var mediaTypes: [String] = []
+            systemImagePicker = UIImagePickerController()
+            if isTakePhoto {
+                mediaTypes.append(kUTTypeImage as String)
+                systemImagePicker?.mediaTypes = mediaTypes
+                systemImagePicker?.sourceType = UIImagePickerController.SourceType.camera
+                systemImagePicker?.cameraDevice = .rear
+                systemImagePicker?.cameraCaptureMode = .photo
+            }else {
+                mediaTypes.append(kUTTypeMovie as String)
+                systemImagePicker?.mediaTypes = mediaTypes
+                systemImagePicker?.videoMaximumDuration = IMGInstance.configModel.videoMaxDuration
+                systemImagePicker?.sourceType = UIImagePickerController.SourceType.camera
+                systemImagePicker?.videoQuality = .typeHigh
+                systemImagePicker?.cameraDevice = .rear
+                systemImagePicker?.cameraCaptureMode = .video
+            }
+
+            systemImagePicker?.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+            systemImagePicker?.delegate = self
+            if systemImagePicker != nil {
+                kTopViewController()?.navigationController?
+                    .present(systemImagePicker!, animated: true, completion: nil)
+            }
+        }
+    }
     //刷新配置
     func refreshManagerConfig() {
         let configModel = DKImageConfigModel.init()
@@ -646,67 +646,46 @@ class DKImageManager: NSObject {
     
     func savePhoto(image: UIImage, complete: ((_ asset: PHAsset?,_ error: Error?)->())?) {
         var localIdentifier = ""
-        PHPhotoLibrary.shared().performChanges({
-            let request = PHAssetChangeRequest.creationRequestForAsset(from: image)
-            localIdentifier = request.placeholderForCreatedAsset?.localIdentifier ?? ""
-//            if DPLocationManager.shared.curLocation != nil {
-//                request.location = DPLocationManager.shared.curLocation!
-//            }
-            request.creationDate = Date()
-        }) { (success, error) in
-            DispatchQueue.main.async {
-                if success && complete != nil {
-                    print("图片保存成功")
-                    let asset = PHAsset.fetchAssets(withLocalIdentifiers: [localIdentifier], options: nil).firstObject
-                    complete!(asset, nil)
-                }else {
-                    if complete != nil {
-                        complete!(nil, error)
+        if #available(iOS 9.0, *) {
+            PHPhotoLibrary.shared().performChanges({
+                let options = PHAssetResourceCreationOptions.init()
+                options.shouldMoveFile = true
+                let request = PHAssetChangeRequest.creationRequestForAsset(from: image)
+                localIdentifier = request.placeholderForCreatedAsset?.localIdentifier ?? ""
+//                if DPLocationManager.shared.curLocation != nil {
+//                    request.location = DPLocationManager.shared.curLocation!
+//                }
+                request.creationDate = Date()
+            }) { (success, error) in
+                DispatchQueue.main.async {
+                    if success && complete != nil {
+                        print("图片保存成功")
+                        let asset = PHAsset.fetchAssets(withLocalIdentifiers: [localIdentifier], options: nil).firstObject
+                        complete!(asset, nil)
+                    }else {
+                        if complete != nil {
+                            complete!(nil, error)
+                        }
                     }
                 }
             }
+        }else {
+            let orientation : ALAssetOrientation = ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!
+            
+            self.assetLibrary.writeImage(toSavedPhotosAlbum: image.cgImage, orientation: orientation) { (assetURL, error) in
+                if error == nil && assetURL != nil && complete != nil {
+                    print("图片保存成功")
+                    DispatchQueue.main.asyncAfter(deadline: .now()+0.5, execute:
+                        {
+                            let asset = PHAsset.fetchAssets(withALAssetURLs: [assetURL!], options: nil).firstObject
+                            complete!(asset, error)
+                    })
+                }else if error != nil && complete != nil {
+                    print("图片保存失败")
+                    complete!(nil, error)
+                }
+            }
         }
-        
-//        if let data = image.jpegData(compressionQuality: 0.9) {
-//            if #available(iOS 9.0, *)  {
-//                PHPhotoLibrary.shared().performChanges({
-//                    let options = PHAssetResourceCreationOptions.init()
-//                    options.shouldMoveFile = true
-//                    let request = PHAssetCreationRequest.init()
-//                    request.addResource(with: PHAssetResourceType.photo, data: data, options: options)
-//                    if DPLocationManager.shared.curLocation != nil {
-//                        request.location = DPLocationManager.shared.curLocation!
-//                    }
-//                    request.creationDate = Date()
-//                }) { (success, error) in
-//                    DispatchQueue.main.async {
-//                        if success && complete != nil {
-//                            print("图片保存成功")
-//                            complete!(nil)
-//                        }else if error != nil && complete != nil {
-//                            print("图片保存失败")
-//                            complete!(error)
-//                        }
-//                    }
-//                }
-//            }else {
-//                let orientation : ALAssetOrientation = ALAssetOrientation(rawValue: image.imageOrientation.rawValue)!
-//
-//                self.assetLibrary.writeImage(toSavedPhotosAlbum: image.cgImage, orientation: orientation) { (assetURL, error) in
-//                    if error == nil && complete != nil {
-//                        print("图片保存成功")
-//                        DispatchQueue.main.asyncAfter(deadline: .now()+0.5, execute:
-//                            {
-//                            complete!(nil)
-//                        })
-//                    }else if error != nil && complete != nil {
-//                        print("图片保存失败")
-//                        complete!(error)
-//                    }
-//                }
-//            }
-//        }
-
     }
 
     //MARK: - 保存视频
@@ -866,10 +845,10 @@ class DKImageManager: NSObject {
         return DKImageConfigModel()
     }()
     
-//    @available (iOS 9.0, *)
-//    lazy var assetLibrary: ALAssetsLibrary = {
-//        return ALAssetsLibrary.init()
-//    }()
+    @available (iOS 9.0, *)
+    lazy var assetLibrary: ALAssetsLibrary = {
+        return ALAssetsLibrary.init()
+    }()
 }
 
 extension DKImageManager: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
@@ -888,16 +867,16 @@ extension DKImageManager: UIImagePickerControllerDelegate, UINavigationControlle
                                 if let delegate = self?.pickerDelegate, delegate.responds(to: #selector(DKImagePickerDelegate.imagePickerDidAddNewAsset(photo:model:))) {
                                     self?.pickerDelegate?.imagePickerDidAddNewAsset!(photo: photo, model: model)
                                 }else {
-//                                    if self?.configModel.allowCrop == true {
-//                                        let vc = DKImagePreviewViewController.init()
-//                                        vc.models = [model]
-//                                        vc.curIndex = 0
-//                                        vc.isCropImage = true
-//                                        vc.fromImagePicker = true
-//                                        picker.pushViewController(vc, animated: true)
-//                                    }else {
-//                                        IMGInstance.addAssetModel(with: model)
-//                                    }
+                                    if self?.configModel.allowCrop == true {
+                                        let vc = DKImagePreviewViewController.init()
+                                        vc.models = [model]
+                                        vc.curIndex = 0
+                                        vc.isCropImage = true
+                                        vc.fromImagePicker = true
+                                        picker.pushViewController(vc, animated: true)
+                                    }else {
+                                        IMGInstance.addAssetModel(with: model)
+                                    }
                                 }
                             }
                         }

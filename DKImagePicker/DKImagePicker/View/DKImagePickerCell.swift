@@ -2,8 +2,8 @@
 //  DKImagePickerCell.swift
 //  DatePlay
 //
-//  Created by 张昭 on 2018/10/17.
-//  Copyright © 2018 AimyMusic. All rights reserved.
+//  Created by DU on 2018/10/17.
+//  Copyright © 2018 DU. All rights reserved.
 //
 
 import UIKit

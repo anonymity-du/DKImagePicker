@@ -2,7 +2,7 @@
 //  DKProgressView.swift
 //  DKImagePicker
 //
-//  Created by 杜奎 on 2019/1/11.
+//  Created by DU on 2019/1/11.
 //  Copyright © 2019 DU. All rights reserved.
 //
 

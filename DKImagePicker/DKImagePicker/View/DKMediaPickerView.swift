@@ -2,8 +2,8 @@
 //  DKMediaPickerView.swift
 //  DatePlay
 //
-//  Created by 张昭 on 2018/10/22.
-//  Copyright © 2018 AimyMusic. All rights reserved.
+//  Created by DU on 2018/10/22.
+//  Copyright © 2018 DU. All rights reserved.
 //
 
 import UIKit
@@ -127,23 +127,23 @@ extension DKMediaPickerView: UICollectionViewDataSource, UICollectionViewDelegat
             
             IMGInstance.configModel.systemImagePickerVCCompleteBlock = nil
             if IMGInstance.configModel.selectedModels.count < IMGInstance.configModel.maxImagesCount {
-//                DPSystemPermission.shared.cameraAblumAuthority { (success) in
-//                    if success {
-//                        let configModel = IMGInstance.configModel
-//                        configModel.systemImagePickerVCCompleteBlock = { model in
-//                            if configModel.sortAscendingByModificationDate {
-//                                self.albumModel?.models.append(model)
-//                                self.dataSource.append(model)
-//                            }else {
-//                                self.albumModel?.models.insert(model, at: 0)
-//                                self.dataSource.insert(model, at: 0)
-//                            }
-//                            self.albumModel?.count += 1
-//                            self.collectionView?.reloadData()
-//                        }
-//                        IMGInstance.pushImagePickerController(isTakePhoto: !IMGInstance.configModel.allowPickingVideo)
-//                    }
-//                }
+                DKSystemPermission.cameraAblumHasAuthority { (success) in
+                    if success {
+                        let configModel = IMGInstance.configModel
+                        configModel.systemImagePickerVCCompleteBlock = { model in
+                            if configModel.sortAscendingByModificationDate {
+                                self.albumModel?.models.append(model)
+                                self.dataSource.append(model)
+                            }else {
+                                self.albumModel?.models.insert(model, at: 0)
+                                self.dataSource.insert(model, at: 0)
+                            }
+                            self.albumModel?.count += 1
+                            self.collectionView?.reloadData()
+                        }
+                        IMGInstance.pushImagePickerController(isTakePhoto: !IMGInstance.configModel.allowPickingVideo)
+                    }
+                }
             } else {
                 var strTip = ""
                 if IMGInstance.configModel.diyTip.count > 0 {

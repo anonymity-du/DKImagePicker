@@ -2,7 +2,7 @@
 //  DKImagePickerView.swift
 //  DKImagePicker
 //
-//  Created by 杜奎 on 2019/1/24.
+//  Created by DU on 2019/1/24.
 //  Copyright © 2019 DU. All rights reserved.
 //
 
@@ -12,9 +12,9 @@ import Photos
 
 class DKImagePickerView: UIView {
 
+    var configModel: DKImageConfigModel?
     private(set) var selectedAssetModels = [DKAssetModel]()
     var modelsChangeBlock: ((_ models: [DKAssetModel])->())?
-    var hasRecord = false
     private var videoAlbumModel: DKAlbumModel?
     
     private var showAlbum = false {
@@ -39,18 +39,30 @@ class DKImagePickerView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        IMGInstance.configModel.showSelectBtn = true
-        IMGInstance.pickerDelegate = self
+        self.changeImageConfigModel()
         
         addSubview(assetsView)
         addSubview(albumView)
         addSubview(bottomBar)
         bottomBar.bottom = self.height
         self.changeBtnStatus(isAlbumBtn: true)
-        self.configTableViewData()
+    }
+    
+    //更换configModel
+    func changeImageConfigModel() {
+        if self.configModel == nil {
+            self.configModel = DKImageConfigModel.init()
+            self.configModel?.allowPreview = true
+            self.configModel?.allowPickingImage = true
+            self.configModel?.allowPickingVideo = false
+            self.configModel?.showSelectBtn = true
+        }
+        IMGInstance.configModel = self.configModel!
+        IMGInstance.pickerDelegate = self
     }
     
     func configTableViewData() {
+        
         _ = DKSystemPermission.photoAblumHasAuthority { (access) in
             if access {
                 DispatchQueue.global().async {
@@ -195,12 +207,14 @@ class DKImagePickerView: UIView {
     private lazy var bottomBar: UIView = {
         let view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.width, height: 40 + kTabbarSafeBottomMargin))
         view.backgroundColor = UIColor.white
+        
         view.addSubview(albumBtn)
         view.addSubview(videoBtn)
         albumBtn.x = 0
         albumBtn.y = 0
         videoBtn.x = albumBtn.right
         videoBtn.y = albumBtn.y
+        
         return view
     }()
     private lazy var albumBtn: UIButton = {
@@ -243,14 +257,7 @@ extension DKImagePickerView: DKAlbumPickerViewDelegate {
 extension DKImagePickerView: DKMediaPickerViewDelegate {
     
     func mediaPickerViewCellWillUseCamera(_ isVideo: Bool) -> Bool {
-        if self.hasRecord {
-            if isVideo {
-                kFrontWindow().makeToast("语音和视频无法同时选择")
-            }else {
-                kFrontWindow().makeToast("语音和照片无法同时选择")
-            }
-            return false
-        }
+
         if let firstItem = IMGInstance.configModel.selectedModels.first {
             if (firstItem.mediaType == .photo || firstItem.mediaType == .photoGif) && isVideo {
                 kFrontWindow().makeToast("照片与视频无法同时选择")
@@ -268,17 +275,8 @@ extension DKImagePickerView: DKMediaPickerViewDelegate {
     
     func mediaPickerViewWillSelectModel(_ model: DKAssetModel) -> Bool {
         print("will select")
-        if self.hasRecord {
-            if model.mediaType == .video {
-                kFrontWindow().makeToast("语音和视频无法同时选择")
-            }else {
-                kFrontWindow().makeToast("语音和照片无法同时选择")
-            }
-            return false
-        }else {
-            let should = self.mixTypeTips(model: model)
-            return should
-        }
+        let should = self.mixTypeTips(model: model)
+        return should
     }
     
     func mediaPickerViewDidSelectModel(_ model: DKAssetModel) {
@@ -286,17 +284,8 @@ extension DKImagePickerView: DKMediaPickerViewDelegate {
     }
     
     func mediaPickerViewCellWillSelect(_ model: DKAssetModel) -> Bool {
-        if self.hasRecord {
-            if model.mediaType == .video {
-                kFrontWindow().makeToast("语音和视频无法同时选择")
-            }else {
-                kFrontWindow().makeToast("语音和照片无法同时选择")
-            }
-            return false
-        }else {
-            let should = self.mixTypeTips(model: model)
-            return should
-        }
+        let should = self.mixTypeTips(model: model)
+        return should
     }
     
     func mediaPickerViewCellDidSelect(_ model: DKAssetModel) {
@@ -347,20 +336,20 @@ extension DKImagePickerView: DKMediaPickerViewDelegate {
                     }
                 }else if avasset != nil {
                     
-//                    DPPlayerManager.shared.videoMaxSize = CGSize.init(width: kScreenWidth, height: kScreenWidth)
-//                    DPPlayerManager.shared.avasset = avasset
-//                    DPPlayerManager.shared.fetchVideoProperty(complete: { (time, videoTracks, audioTracks) in
-//                        DPPlayerManager.shared.fetchVideoInfo(time: time, videoTracks: videoTracks, audioTracks: audioTracks)
-//                        DispatchQueue.main.async {
-//                            let vc = DPCropVideoViewController.init()
-//                            vc.videoModel = model
-//                            vc.avasset = avasset
-//                            DPUtil.topViewController()?.navigationController?
-//                                .pushViewController(vc, animated: true)
-//                            DPActivityIndicatorView.hide()
-//                            print("跳转到视频裁切页")
-//                        }
-//                    })
+                    DKPlayerManager.shared.videoMaxSize = CGSize.init(width: kScreenWidth, height: kScreenWidth)
+                    DKPlayerManager.shared.avasset = avasset
+                    DKPlayerManager.shared.fetchVideoProperty(complete: { (time, videoTracks, audioTracks) in
+                        DKPlayerManager.shared.fetchVideoInfo(time: time, videoTracks: videoTracks, audioTracks: audioTracks)
+                        DispatchQueue.main.async {
+                            let vc = DKCropVideoViewController.init()
+                            vc.videoModel = model
+                            vc.avasset = avasset
+                            kTopViewController()?.navigationController?
+                                .pushViewController(vc, animated: true)
+                            DKLoadingView.hide()
+                            print("跳转到视频裁切页")
+                        }
+                    })
                 }else if avasset == nil {
                     if isDownLoadFromICloud {
                         print("从 icloud 下载")

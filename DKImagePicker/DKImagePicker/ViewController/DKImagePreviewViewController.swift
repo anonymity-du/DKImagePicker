@@ -2,8 +2,8 @@
 //  DKImagePreviewViewController.swift
 //  DatePlay
 //
-//  Created by 杜奎 on 2018/11/1.
-//  Copyright © 2018年 AimyMusic. All rights reserved.
+//  Created by DU on 2018/11/1.
+//  Copyright © 2018年 DU. All rights reserved.
 //
 
 import UIKit
@@ -63,8 +63,15 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
         }
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        self.view.bringSubviewToFront(self.navigationBar)
+    }
+    
     func loadSubview() {
-        title = isCropImage ? "图片裁剪" : "图片预览"
+        self.titleLabel.text = isCropImage ? "图片裁剪" : "图片预览"
+        self.titleLabel.sizeToFit()
         
         view.addSubview(self.collectionView)
         view.addSubview(self.navigationBar)
@@ -72,8 +79,11 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
         bottomBar.bottom = self.view.height
         
         self.navigationBar.addSubview(self.backBtn)
+        self.navigationBar.addSubview(self.titleLabel)
         self.backBtn.x = 16
         self.backBtn.centerY = self.navigationBar.height - 22
+        self.titleLabel.centerY = self.backBtn.centerY
+        self.titleLabel.centerX = self.navigationBar.width * 0.5
         
         if IMGInstance.configModel.allowCrop {
             view.addSubview(self.cropBgView)
@@ -101,7 +111,7 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
         return IMGInstance.configModel.allowCrop ? .default : .lightContent
     }
     
-    func pop() {
+    @objc func pop() {
         if IMGInstance.configModel.needPreviewTempSelected {
             self.clearTemp()
         }
@@ -109,23 +119,27 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
             IMGInstance.configModel.previewVCBackBlock!()
         }
 
-        if self.navigationController?.viewControllers.count == 1 {
+        if self.fromImagePicker {
+            self.navigationController?.dismiss(animated: true, completion: nil)
+        }else if self.navigationController?.viewControllers.count == 1 {
             self.navigationController?.dismiss(animated: true, completion: nil)
         }else {
             self.navigationController?.popViewController(animated: true)
         }
     }
     
-//    override func dismissAnimated(animated: Bool) {
-//
-//        if IMGInstance.configModel.needPreviewTempSelected {
-//            self.clearTemp()
-//        }
-//        if IMGInstance.configModel.previewVCBackBlock != nil {
-//            IMGInstance.configModel.previewVCBackBlock!()
-//        }
-//        super.dismissAnimated(animated: animated)
-//    }
+    func dismissAnimated(animated: Bool) {
+
+        if IMGInstance.configModel.needPreviewTempSelected {
+            self.clearTemp()
+        }
+        if IMGInstance.configModel.previewVCBackBlock != nil {
+            IMGInstance.configModel.previewVCBackBlock!()
+        }
+        dismiss(animated: animated) {
+            
+        }
+    }
     
     private func clearTemp() {
         IMGInstance.configModel.selectedModels.removeAll()
@@ -277,13 +291,18 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
     
     //MARK:- setter & getter
     
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel.init()
+        label.textColor = UIColor.black
+        return label
+    }()
+    
     private lazy var selectedView: UIView = {
         let view = UIView.init()
         view.addSubview(self.selectedBtn)
         view.addSubview(self.indexLabel)
         
         view.size = self.selectedBtn.size
-//        view.expandEdge = UIEdgeInsets.init(top: 10, left: 10, bottom: 10, right: 10)
         self.indexLabel.sizeToFit()
         self.indexLabel.center = self.selectedBtn.center
         return view
@@ -293,7 +312,6 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
         let btn = UIButton.init(type: UIButton.ButtonType.custom)
         btn.setBackgroundImage(UIImage.init(named: "ic_selectbox"), for: .normal)
         btn.sizeToFit()
-//        btn.expandEdge = UIEdgeInsets.init(top: 10, left: 10, bottom: 10, right: 10)
         btn.sizeToFit()
         btn.addTarget(self, action: #selector(selectedBtnClicked), for: .touchUpInside)
         return btn
@@ -333,7 +351,6 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
             btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
             btn.sizeToFit()
         }
-//        btn.expandEdge = UIEdgeInsets.init(top: 10, left: 10, bottom: 10, right: 10)
         btn.addTarget(self, action: #selector(completeBtnClicked), for: .touchUpInside)
         return btn
     }()
@@ -369,8 +386,7 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
         let view = UIView.init()
         view.isUserInteractionEnabled = false
         view.frame = IMGInstance.configModel.cropRect
-//        view.layer.borderColor = UIColor.white.cgColor
-//        view.layer.borderWidth = 1.0
+
         if IMGInstance.configModel.needCircleCrop {
             view.layer.cornerRadius = IMGInstance.configModel.cropRect.size.width / 2;
             view.clipsToBounds = true
@@ -388,6 +404,7 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
 
     private lazy var navigationBar: UIView = {
         let view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.view.width, height: kStatusBarAndNavigationBarHeight))
+        view.backgroundColor = UIColor.white
         return view
     }()
     
@@ -395,6 +412,7 @@ class DKImagePreviewViewController: UIViewController, UICollectionViewDelegate,U
         let btn = UIButton.init(type: UIButton.ButtonType.custom)
         btn.setImage(UIImage.init(named: "back"), for: .normal)
         btn.sizeToFit()
+        btn.addTarget(self, action: #selector(pop), for: .touchUpInside)
         return btn
     }()
     

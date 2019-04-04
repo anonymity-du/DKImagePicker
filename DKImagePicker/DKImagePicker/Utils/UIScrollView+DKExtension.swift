@@ -2,8 +2,8 @@
 //  UIScrollView+Extension.swift
 //  DatePlay
 //
-//  Created by 杜奎 on 2018/10/16.
-//  Copyright © 2018年 AimyMusic. All rights reserved.
+//  Created by DU on 2018/10/16.
+//  Copyright © 2018年 DU. All rights reserved.
 //
 
 import UIKit

@@ -2,7 +2,7 @@
 //  DKLoadingView.swift
 //  DKImagePicker
 //
-//  Created by 杜奎 on 2019/1/22.
+//  Created by DU on 2019/1/22.
 //  Copyright © 2019 DU. All rights reserved.
 //
 
@@ -12,7 +12,7 @@ class DKLoadingView: UIView {
 
     class func showMessage(message: String) {
         let view = DKLoadingView.init(frame: UIScreen.main.bounds, message: message)
-        view.tag = 100
+        view.tag = 10000
         view.alpha = 0
         view.startAnimation()
         kFrontWindow().addSubview(view)
@@ -26,13 +26,10 @@ class DKLoadingView: UIView {
     }
     
     class func hide() {
-        let view =  kFrontWindow().viewWithTag(100) as? DKLoadingView
-        UIView.animate(withDuration: 0.3, animations: {
-            view?.alpha = 0
-        }) { (finish) in
-            view?.endAnimation()
-            view?.removeFromSuperview()
-        }
+        let view =  kFrontWindow().viewWithTag(10000) as? DKLoadingView
+        view?.alpha = 0
+        view?.endAnimation()
+        view?.removeFromSuperview()
     }
     
     convenience init(frame: CGRect, message: String?) {

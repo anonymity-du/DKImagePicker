@@ -2,38 +2,53 @@
 //  TestBAssetViewController.swift
 //  DKImagePicker
 //
-//  Created by 杜奎 on 2019/2/11.
+//  Created by DU on 2019/2/11.
 //  Copyright © 2019 DU. All rights reserved.
 //
 
 import UIKit
 
 class TestBAssetViewController: UIViewController {
-    var dataDict: [String: Any]?
     private var configModel: DKImageConfigModel = DKImageConfigModel()
-    private var mixPhotoAndVideo: Bool = false
-    private var muiltyAlbums: Bool = false
     private var selectedVideoModel: DKVideoModel?
     private var bottomBarGestureHandler: GenericPanGestureHandler?
     
-    convenience init(dataDict: [String: Any]) {
-        self.init()
-        self.dataDict = dataDict
+    deinit {
+        print("TestBAssetViewController dealloc")
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.navigationItem.title = "Half Screen"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(customView: self.startBtn)
         self.view.backgroundColor = UIColor.white
         
-        self.refreshConfig()
-        
+        IMGInstance.refreshManagerConfig()
+
         self.view.addSubview(self.imgsView)
         self.view.addSubview(self.bottomBar)
         self.view.addSubview(self.bottomAssetView)
         
         self.imgsView.y = kNaviBarHeight + 30
+        self.configPanGesture()
+        //获取数据 fetch assets
+        self.bottomAssetView.configTableViewData()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(cropVideoSuccess(notification:)), name: NSNotification.Name("cropVideoSuccess"), object: nil)
+        // Do any additional setup after loading the view.
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //由于IMGInstance为单例，configModel只有一个，在去往其他访问相册的页面后，
+        //可能配置被更改了，需要在回到此页面时复原为原来的configModel
+        self.bottomAssetView.changeImageConfigModel()
+        self.navigationController?.isNavigationBarHidden = false
+    }
+    
+    private func configPanGesture() {
         self.bottomBarGestureHandler = GenericPanGestureHandler.init(gestureView: bottomBarCoverView, handleView: bottomBar, minY: kStatusBarAndNavigationBarHeight, midY: kScreenHeight - 315 - kTabbarSafeBottomMargin, maxY: kScreenHeight - bottomBar.height)
         self.bottomBarGestureHandler?.offsetCompleteBlock = { [weak self] in
             self?.bottomAssetView.changeSubviewsFrame(needChangeBounds: true)
@@ -48,43 +63,26 @@ class TestBAssetViewController: UIViewController {
             if afterY < self!.view.height && self!.bottomAssetView.isHidden {
                 self?.bottomAssetView.isHidden = false
             }
-            if direction != nil {
-                if direction! == false {
-                    self?.bottomAssetView.changeSubviewsFrame(needChangeBounds: false)
-                }else {
-                    self?.bottomAssetView.changeSubviewsFrame(needChangeBounds: true)
-                }
+            if direction == false {
+                self?.bottomAssetView.changeSubviewsFrame(needChangeBounds: false)
             }else {
                 self?.bottomAssetView.changeSubviewsFrame(needChangeBounds: true)
             }
         }
         self.bottomBarGestureHandler?.levelType = .mid
-        
-        // Do any additional setup after loading the view.
-    }
-    
-    func refreshConfig() {
-
-        for key in self.dataDict!.keys {
-            let value = self.dataDict?[key] as! Bool
-            if key == "是否按时间升序" {
-                self.configModel.sortAscendingByModificationDate = value
-            }else if key == "是否允许有图片" {
-                self.configModel.allowPickingImage = value
-            }else if key == "是否允许有视频" {
-                self.configModel.allowPickingVideo = value
-            }else if key == "是否允许图片视频混合" {
-                self.mixPhotoAndVideo = value
-            }else if key == "是否允许多个相册" {
-                self.muiltyAlbums = value
-            }else if key == "是否可以裁剪（单选）" {
-                configModel.allowCrop = value
-            }
-        }
-        IMGInstance.configModel = self.configModel
     }
     
     //MARK:- action
+    
+    @objc func startBtnClicked() {
+        let vc = TestAAvatarViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc private func cropVideoSuccess(notification: Notification) {
+        self.selectedVideoModel = notification.object as? DKVideoModel
+        self.changeImgsView()
+    }
     
     private func changeImgsView() {
         for subview in self.imgsView.subviews {
@@ -117,34 +115,11 @@ class TestBAssetViewController: UIViewController {
             let col = index%3
             let row = index/3
             itemView.tag = 100 + index
-            itemView.selectBlock = { [weak self] in
-                print("itemview \(itemView.tag)")
-                
-                //                if self?.selectedVideoModel != nil {
-                //                    let playView = DPVideoScreenPlayView.init(frame: self?.view.bounds ?? CGRect.zero)
-                //                    playView.videoSize = CGSize.init(width: self?.selectedVideoModel?.width ?? 210, height: self?.selectedVideoModel?.height ?? 210)
-                //                    playView.outsideFrame = DPUtil.frontWindow().convert(itemView.frame, from: self?.imgsView)
-                //                    playView.thumbImage = self?.selectedVideoModel?.coverThumbImg
-                //                    playView.url = URL.init(fileURLWithPath: self?.selectedVideoModel?.path ?? "")
-                //                    playView.show()
-                //                }else if let selectAssets = self?.bottomAssetView.selectedAssetModels {
-                //                    let isFirst = self?.inputTextView.inputTextView.isFirstResponder ?? false
-                //                    let picPreview = DPPicPreviewPopView.init(assetModels:  selectAssets, initIndex: index)
-                //                    picPreview.delegate = self
-                //                    picPreview.animationCompleteAction = { isShow in
-                //                        if !isShow {
-                //                            if isFirst == true {
-                //                                self?.inputTextView.inputTextView
-                //                                    .becomeFirstResponder()
-                //                            }
-                //                        }
-                //                    }
-                //                    picPreview.show()
-                //                    self?.view.endEditing(true)
-                //                }
+            itemView.selectBlock = { [weak itemView] in
+                print("itemview \(itemView?.tag ?? 0)")
             }
-            itemView.deleteBlock = { [weak self] in
-                let tag = itemView.tag
+            itemView.deleteBlock = { [weak self, weak itemView] in
+                let tag = itemView?.tag ?? 0
                 self?.selectedVideoModel = nil //无论是视频还是图片，都可以将选中的视频model置空
                 self?.bottomAssetView.deleteImg(index: tag)
             }
@@ -197,5 +172,14 @@ class TestBAssetViewController: UIViewController {
         }
         return view
     }()
-
+    
+    private lazy var startBtn: UIButton = {
+        let btn = UIButton.init(type: UIButton.ButtonType.custom)
+        btn.setTitleColor(kGenericColor, for: .normal)
+        btn.titleLabel?.font = UIFont.boldSystemFont(ofSize: 16)
+        btn.setTitle("打开头像设置", for: .normal)
+        btn.size = CGSize.init(width: 80, height: 40)
+        btn.addTarget(self, action: #selector(startBtnClicked), for: .touchUpInside)
+        return btn
+    }()
 }

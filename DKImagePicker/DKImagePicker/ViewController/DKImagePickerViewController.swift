@@ -2,8 +2,8 @@
 //  DKImagePickerViewController.swift
 //  DatePlay
 //
-//  Created by 张昭 on 2018/10/22.
-//  Copyright © 2018 AimyMusic. All rights reserved.
+//  Created by DU on 2018/10/22.
+//  Copyright © 2018 DU. All rights reserved.
 //
 
 import UIKit
@@ -20,13 +20,28 @@ class DKImagePickerViewController: UIViewController {
         super.viewDidLoad()
         title = "图片选择"
         
+        self.navigationController?.navigationBar.isHidden = true
         IMGInstance.pickerDelegate = self
         
         view.backgroundColor = UIColor.white
+        view.addSubview(self.navigationBar)
         view.addSubview(self.mediaPickerView)
         view.addSubview(self.albumPickerView)
         
-        //默认选中相机胶卷操作
+        self.navigationBar.addSubview(self.closeBtn)
+        self.navigationBar.addSubview(self.finishBtn)
+        self.navigationBar.addSubview(self.albumTitleBtn)
+        self.finishBtn.sizeToFit()
+        self.finishBtn.right = self.navigationBar.width - 16
+        self.finishBtn.centerY = 42.5 + kStatusSafeMargin
+        self.albumTitleBtn.sizeToFit()
+        self.albumTitleBtn.centerX = self.navigationBar.width * 0.5
+        self.albumTitleBtn.centerY = self.finishBtn.centerY
+        self.closeBtn.sizeToFit()
+        self.closeBtn.x = 16
+        self.closeBtn.centerY = self.finishBtn.centerY
+        
+        //默认选中相机胶卷
         self.configTableViewData()
         //点返回和点完成 都会走这儿
         IMGInstance.configModel.previewVCBackBlock = {[weak self] in
@@ -34,46 +49,40 @@ class DKImagePickerViewController: UIViewController {
             self?.mediaPickerViewDidSelectModel(DKAssetModel())
         }
         
-//        self.navigationBar.titleView?.isHidden = true
         self.finishBtn.isHidden = IMGInstance.configModel.allowCrop
-//        self.navigationBar.addSubview(self.finishBtn)
-//        self.navigationBar.addSubview(self.albumTitleView)
-       
-//        self.finishBtn.snp.makeConstraints { (make) in
-//            make.right.equalTo(-16)
-//            make.centerY.equalTo(42.5 + kStatusSafeMargin)
-//        }
-//        self.albumTitleView.snp.makeConstraints { (make) in
-//            make.centerY.equalTo(self.finishBtn.snp.centerY)
-//            make.centerX.equalToSuperview()
-//        }
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        self.view.bringSubviewToFront(self.navigationBar)
     }
     
     func configTableViewData() {
-//        DPSystemPermission.photoAblumAuthority { (access) in
-//            if access {
-//                DispatchQueue.global().async {
-//                    IMGInstance.getAllAlbums(allowPickingVideo: IMGInstance.configModel.allowPickingVideo, allowPickingImage: IMGInstance.configModel.allowPickingImage, complete: { (arr) in
-//                        if arr.count > 0 {
-//                            IMGInstance.configModel.selectedAlbumModel = arr.first!
-//                        }
-//                        DispatchQueue.main.async {
-//                            self.albumPickerView.configTableViewData(with: arr)
-//                            self.mediaPickerView.albumModel = IMGInstance.configModel.selectedAlbumModel
-//                        }
-//                    })
-//                }
-//            }
-//        }
+        _ = DKSystemPermission.photoAblumHasAuthority { (access) in
+            if access {
+                DispatchQueue.global().async {
+                    IMGInstance.getAllAlbums(allowPickingVideo: IMGInstance.configModel.allowPickingVideo, allowPickingImage: IMGInstance.configModel.allowPickingImage, complete: { (arr) in
+                        if arr.count > 0 {
+                            IMGInstance.configModel.selectedAlbumModel = arr.first!
+                        }
+                        DispatchQueue.main.async {
+                            self.albumPickerView.configTableViewData(with: arr)
+                            self.mediaPickerView.albumModel = IMGInstance.configModel.selectedAlbumModel
+                        }
+                    })
+                }
+            }
+        }
     }
     
-//    override func dismissAnimated(animated: Bool) {
-//        mediaPickerView.delegate = nil
-//        albumPickerView.delegate = nil
-//        self.dismiss(animated: true) {
-//            IMGInstance.refreshManagerConfig()
-//        }
-//    }
+    @objc func dismissAnimated(animated: Bool) {
+        mediaPickerView.delegate = nil
+        albumPickerView.delegate = nil
+        self.dismiss(animated: true) {
+            IMGInstance.refreshManagerConfig()
+        }
+    }
     
     @objc fileprivate func titleBtnClicked(_ btn: UIButton) {
         btn.isSelected = !btn.isSelected
@@ -99,17 +108,30 @@ class DKImagePickerViewController: UIViewController {
     
     @objc fileprivate func doneBtnClicked() {
         IMGInstance.didFinishPicking()
-//        self.dismissAnimated(animated: true)
+        self.dismissAnimated(animated: true)
     }
     
     //MARK:- setter & getter
     
-    private lazy var albumTitleView: UIButton = {
+    private lazy var navigationBar: UIView = {
+        let view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.view.width, height: kStatusBarAndNavigationBarHeight))
+        view.backgroundColor = UIColor.white
+        return view
+    }()
+    
+    private lazy var closeBtn: UIButton = {
+        let btn = UIButton.init(type: UIButton.ButtonType.custom)
+        btn.setImage(UIImage.init(named: "ic_close"), for: .normal)
+        btn.sizeToFit()
+        btn.addTarget(self, action: #selector(dismissAnimated(animated:)), for: .touchUpInside)
+        return btn
+    }()
+    
+    private lazy var albumTitleBtn: UIButton = {
         let btn = UIButton.init(type: UIButton.ButtonType.custom)
         btn.setTitle("相机胶卷", for: .normal)
-        btn.setImage(UIImage.init(named: "ic_arrow_bot"), for: .normal)
-//        btn.iconPosition = RTIconPosition.right.rawValue
-//        btn.iconMargin = 7
+        btn.setImage(UIImage.init(named: "ic_smallarrow_black"), for: .normal)
+        btn.imageEdgeInsets = UIEdgeInsets.init(top: 0, left: -7, bottom: 0, right: 7)
         btn.addTarget(self, action: #selector(titleBtnClicked(_:)), for: UIControl.Event.touchUpInside)
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.medium)
         btn.setTitleColor(UIColor.hexColor("4a4a4a"), for: .normal)
@@ -173,8 +195,8 @@ extension DKImagePickerViewController: DKAlbumPickerViewDelegate {
         if IMGInstance.configModel.selectedAlbumModel?.name != album.name {
             self.mediaPickerView.albumModel = album
         }
-        albumTitleView.setTitle(album.name, for: .normal)
-        self.titleBtnClicked(albumTitleView)
+        albumTitleBtn.setTitle(album.name, for: .normal)
+        self.titleBtnClicked(albumTitleBtn)
     }
 }
 

@@ -2,8 +2,8 @@
 //  UIColor+DKExtension.swift
 //  ImitationOfTodayNews
 //
-//  Created by 杜奎 on 2017/5/25.
-//  Copyright © 2017年 杜奎. All rights reserved.
+//  Created by DU on 2017/5/25.
+//  Copyright © 2017年 DU. All rights reserved.
 //
 
 import UIKit

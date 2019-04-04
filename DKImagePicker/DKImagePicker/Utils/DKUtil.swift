@@ -2,11 +2,12 @@
 //  DKUtil.swift
 //  DKImagePicker
 //
-//  Created by 杜奎 on 2019/1/10.
+//  Created by DU on 2019/1/10.
 //  Copyright © 2019 DU. All rights reserved.
 //
 
 import UIKit
+import AVKit
 
 let kScreenWidth = UIScreen.main.bounds.width
 let kScreenHeight = UIScreen.main.bounds.height
@@ -78,4 +79,23 @@ func kTopViewController(root: UIViewController?) -> UIViewController? {
         return kTopViewController(root:root?.presentedViewController)
     }
     return root
+}
+
+//方向
+func kChangeVideoDirection(videoTrack: AVAssetTrack) -> CGSize {
+    
+    let transform = videoTrack.preferredTransform
+    let size = videoTrack.naturalSize
+    var afterSize = size
+    let videoAngleInDegree = Double(atan2(transform.b, transform.a)) * 180 / Double.pi
+    
+    switch videoAngleInDegree {
+    case 0,180:
+        afterSize = CGSize.init(width: size.width, height: size.height)
+    case 90,-90:
+        afterSize = CGSize.init(width: size.height, height: size.width)
+    default:
+        break
+    }
+    return afterSize
 }

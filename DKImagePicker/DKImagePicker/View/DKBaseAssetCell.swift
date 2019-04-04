@@ -2,8 +2,8 @@
 //  DKBaseAssetCell.swift
 //  DatePlay
 //
-//  Created by 杜奎 on 2018/11/1.
-//  Copyright © 2018年 AimyMusic. All rights reserved.
+//  Created by DU on 2018/11/1.
+//  Copyright © 2018年 DU. All rights reserved.
 //
 
 import UIKit

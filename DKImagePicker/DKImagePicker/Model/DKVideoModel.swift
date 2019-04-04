@@ -2,7 +2,7 @@
 //  DKVideoModel.swift
 //  DKImagePicker
 //
-//  Created by 杜奎 on 2019/1/24.
+//  Created by DU on 2019/1/24.
 //  Copyright © 2019 DU. All rights reserved.
 //
 

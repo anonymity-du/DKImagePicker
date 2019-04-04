@@ -2,7 +2,7 @@
 //  DKAlertView.swift
 //  DKImagePicker
 //
-//  Created by 杜奎 on 2019/2/11.
+//  Created by DU on 2019/2/11.
 //  Copyright © 2019 DU. All rights reserved.
 //
 

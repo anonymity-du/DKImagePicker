@@ -2,8 +2,8 @@
 //  GenericPanGestureHandler.swift
 //  DatePlay
 //
-//  Created by 杜奎 on 2019/3/22.
-//  Copyright © 2019 AimyMusic. All rights reserved.
+//  Created by DU on 2019/3/22.
+//  Copyright © 2019 DU. All rights reserved.
 //
 
 //此手势项目地址 https://github.com/anonymity-du/ThreeStage-PanGesture

@@ -2,8 +2,8 @@
 //  DKCropViewManager.swift
 //  DatePlay
 //
-//  Created by 杜奎 on 2018/12/7.
-//  Copyright © 2018 杜奎. All rights reserved.
+//  Created by DU on 2018/12/7.
+//  Copyright © 2018 DU. All rights reserved.
 //
 
 import UIKit

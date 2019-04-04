@@ -2,7 +2,7 @@
 //  DKPropertySelectedCell.swift
 //  DKImagePicker
 //
-//  Created by 杜奎 on 2019/2/12.
+//  Created by DU on 2019/2/12.
 //  Copyright © 2019 DU. All rights reserved.
 //
 
